@@ -25,11 +25,11 @@ installNetworking () {
     
     echo --dhcpbridge_flagfile=/etc/nova/nova-network.conf > /etc/nova/nova-network.conf
     echo --verbose >> /etc/nova/nova-network.conf
-    echo --rabbit_host=$MYLOCALIP >> /etc/nova/nova-network.conf
-    echo --my_ip=$MYLOCALIP >> /etc/nova/nova-network.conf
+    echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-network.conf
+    echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-network.conf
     echo --dhcpbridge=/usr/bin/nova-dhcpbridge >> /etc/nova/nova-network.conf
-    echo --sql_connection=mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/nova >> /etc/nova/nova-network.conf
-    echo --ec2_dmz_host=$MYLOCALIP >> /etc/nova/nova-network.conf
+    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-network.conf
+    echo --ec2_dmz_host=$CLOUD_MYIP >> /etc/nova/nova-network.conf
     echo --lock_path=/tmp >> /etc/nova/nova-network.conf
     echo --state_path=/var/lib/nova >> /etc/nova/nova-network.conf
     echo --flat_network_dhcp_start=10.0.0.2 >> /etc/nova/nova-network.conf
@@ -40,7 +40,7 @@ installNetworking () {
     echo --public_interface=eth0 >> /etc/nova/nova-network.conf
     echo --use_project_ca >> /etc/nova/nova-network.conf
     echo --nodaemon >> /etc/nova/nova-network.conf
-    echo --routing_source_ip=$MYLOCALIP >> /etc/nova/nova-network.conf
+    echo --routing_source_ip=$CLOUD_MYIP >> /etc/nova/nova-network.conf
     
     stop nova-network; start nova-network
 }

@@ -9,6 +9,7 @@ roleSelection () {
 		Volume "Install Volume components" \
 		FirstImage "Download and publish an Ubuntu 10.04 Image" \
 		Compute-KVM "Configure a Compute Endpoint based on KVM" \
+		Preset "Set all Values" \
 		Values "Show all Values" \
 		Exit "Exit to the shell" 2>"${INPUT}"
 	if [ $? == 1 ]; then clear && exit 0; fi
@@ -36,6 +37,9 @@ roleSelection () {
 		Compute-KVM)
 			askAllQuestions
 			runAction computeKVM	
+		;;
+		Preset)
+			askAllQuestions
 		;;
 		Values)
 			showAllAnswers	
