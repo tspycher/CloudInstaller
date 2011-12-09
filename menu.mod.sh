@@ -83,7 +83,7 @@ askForValue () {
 }
 
 runAction () {
-	$DIALOG --backtitle "$MENUBACKTITLE"--infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
+	$DIALOG --backtitle "$MENUBACKTITLE" --infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
 	$DIALOG --backtitle "$MENUBACKTITLE" --title "Action Result" \
                 --textbox $OUTPUT 40 70
 }
