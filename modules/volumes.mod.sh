@@ -16,7 +16,7 @@ installVolumes () {
     vgcreate nova-volumes /dev/$CLOUD_ISCSIDISK
     
     echo --verbose > /etc/nova/nova-volume.conf
-    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORCLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-volume.conf
+    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-volume.conf
     echo --lock_path=/tmp >> /etc/nova/nova-volume.conf
     echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-volume.conf
     echo --nodaemon >> /etc/nova/nova-volume.conf

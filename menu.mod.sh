@@ -11,6 +11,7 @@ roleSelection () {
 		Compute-KVM "Configure a Compute Endpoint based on KVM" \
 		Preset "Set all Values" \
 		Values "Show all Values" \
+		Verify "Verify your installation" \
 		Exit "Exit to the shell" 2>"${INPUT}"
 	if [ $? == 1 ]; then clear && exit 0; fi
 	
@@ -47,6 +48,10 @@ roleSelection () {
 		Values)
 			showAllAnswers	
 		;;
+		Verify)
+		        if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
+			runAction verify
+		;;
 		Exit)
 			exit	
 		;;
@@ -61,7 +66,7 @@ askAllQuestions () {
 
 selectDisk () {
 	DISK=`sudo ls -1 /dev | grep sd | awk '{print $1" "$1}'`
-	$DIALOG --backtitle "$BACK" --title "[ Delete a Repository]" \
+	$DIALOG --backtitle "$MENUBACKTITLE" --title "[ Delete a Repository]" \
 	--menu "Select Disk for Volume (will be erased!!!)" 30 40 40 $DISK 2>"${INPUT}"
 	disk=$(<"${INPUT}")
 	export CLOUD_ISCSIDISK=$disk
@@ -78,8 +83,8 @@ askForValue () {
 }
 
 runAction () {
-	dialog --infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
-	dialog --backtitle "$BACK" --title "Action Result" \
+	$DIALOG --backtitle "$MENUBACKTITLE"--infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
+	$DIALOG --backtitle "$MENUBACKTITLE" --title "Action Result" \
                 --textbox $OUTPUT 40 70
 }
 

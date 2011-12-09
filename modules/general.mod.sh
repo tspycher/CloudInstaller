@@ -1,3 +1,8 @@
+verify () {
+	nova-manage service list
+	glance index -A $CLOUD_ADMINTOKEN
+}
+
 installBase () {
     apt-get -y update
     
