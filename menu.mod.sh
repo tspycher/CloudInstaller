@@ -28,8 +28,8 @@ roleSelection () {
 		;;
 		Volume)
 			selectDisk	
-			#askAllQuestions
-			#runAction volume
+			askAllQuestions
+			runAction volume
 		;;
 		FirstImage)
 			askAllQuestions
