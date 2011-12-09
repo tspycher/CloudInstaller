@@ -1,9 +1,9 @@
 installBase () {
     apt-get -y update
     
-    hostname nova-controller
-    echo "nova-controller" > /etc/hostname
-    sed -i 's/stackops-node/nova-controller/g' /etc/hosts
+    hostname $CLOUD_NEWHOSTNAME 
+    echo "$CLOUD_NEWHOSTNAME" > /etc/hostname
+    sed -i 's/ubuntu/'$CLOUD_NEWHOSTNAME'/g' /etc/hosts
     apt-get -y install ntp
     sed -i 's/#server ntp.ubuntu.com/ntp.ubuntu.com/g' /etc/ntp.conf
     service ntp stop; ntpdate -u ntp.ubuntu.com; service ntp start
