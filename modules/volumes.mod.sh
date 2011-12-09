@@ -5,6 +5,9 @@ installVolumes () {
     apt-get -y install lvm2
     apt-get -y install iscsitarget
     apt-get -y install iscsitarget-dkms
+
+    sed -i 's/nova.conf/nova-volume.conf/g' /etc/init/nova-volume.conf
+
     #mv /etc/init/nova-volume.conf.disabled /etc/init/nova-volume.conf
     sed -i 's/false/true/g' /etc/default/iscsitarget
     service iscsitarget start

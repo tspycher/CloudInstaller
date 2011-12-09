@@ -5,6 +5,9 @@ installNetworking () {
     apt-get -y install dnsmasq-base
     apt-get -y install iptables
     apt-get -y install ebtables
+
+    sed -i 's/nova.conf/nova-network.conf/g' /etc/init/nova-network.conf
+
     echo "dummy" >> /etc/modules
     modprobe dummy
     ifconfig dummy0 0.0.0.0

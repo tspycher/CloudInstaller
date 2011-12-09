@@ -21,6 +21,22 @@ roleSelection () {
 			askAllQuestions
 			runAction controller
 		;;
+		Network)
+			askAllQuestions
+			runAction network
+		;;
+		Volume)
+			askAllQuestions
+			runAction volume
+		;;
+		FirstImage)
+			askAllQuestions
+			runAction installFirstImage
+		;;
+		Compute-KVM)
+			askAllQuestions
+			runAction computeKVM	
+		;;
 		Values)
 			showAllAnswers	
 		;;

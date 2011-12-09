@@ -28,10 +28,6 @@ installController () {
 
     ln -s /etc/nova/nova-controller.conf /etc/nova/nova.conf
     sed -i 's/nova.conf/nova-api.conf/g' /etc/init/nova-api.conf
-    #sed -i 's/nova.conf/nova-compute.conf/g' /etc/init/nova-compute.conf
-    sed -i 's/nova.conf/nova-network.conf/g' /etc/init/nova-network.conf
-    sed -i 's/nova.conf/nova-volume.conf/g' /etc/init/nova-volume.conf
-
 
     a2enmod proxy
     a2enmod proxy_http
