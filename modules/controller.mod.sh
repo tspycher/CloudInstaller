@@ -6,8 +6,8 @@ installController () {
     apt-get -y install euca2ools
     apt-get -y install cloud-utils
     apt-get -y install glance
-    echo mysql-server-5.1 mysql-server/root_password password $DATABASEPASSWORD | debconf-set-selections
-    echo mysql-server-5.1 mysql-server/root_password_again password $DATABASEPASSWORD | debconf-set-selections
+    echo mysql-server-5.1 mysql-server/root_password password $CLOUD_DBPASSWORD | debconf-set-selections
+    echo mysql-server-5.1 mysql-server/root_password_again password $CLOUD_DBPASSWORD | debconf-set-selections
     echo mysql-server-5.1 mysql-server/start_on_boot boolean true
     apt-get -y install mysql-server
     DEBIAN_FRONTEND=noninteractive apt-get -y install rabbitmq-server
@@ -51,28 +51,28 @@ installController () {
     #mkdir -p /var/lib/glance/images
     
     # ----> TODO: ACHTUNG DB PASSWORD IP
-    sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/glance,g' /etc/glance/glance-registry.conf
-    sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/glance,g' /etc/glance/glance-scrubber.conf
+    sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:'${CLOUD_DBPASSWORD}'@'$CLOUD_MYIP':3306/glance,g' /etc/glance/glance-registry.conf
+    sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:'${CLOUD_DBPASSWORD}'@'$CLOUD_MYIP':3306/glance,g' /etc/glance/glance-scrubber.conf
     sed -i 's@daemon = False@daemon = True@g' /etc/glance/glance-scrubber.conf
     
-    echo --s3_hostname=$MYLOCALIP > /etc/nova/nova-controller.conf
+    echo --s3_hostname=$CLOUD_MYIP > /etc/nova/nova-controller.conf
     echo --osapi_extensions_path=/var/lib/nova/extensions >> /etc/nova/nova-controller.conf
-    echo --vncproxy_url=http://$MYLOCALIP:6080 >> /etc/nova/nova-controller.conf
+    echo --vncproxy_url=http://$CLOUD_MYIP:6080 >> /etc/nova/nova-controller.conf
     echo --verbose >> /etc/nova/nova-controller.conf
-    echo --ec2_dmz_host=$MYLOCALIP >> /etc/nova/nova-controller.conf
+    echo --ec2_dmz_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --lock_path=/tmp >> /etc/nova/nova-controller.conf
-    echo --glance_api_servers=$MYLOCALIP:9292 >> /etc/nova/nova-controller.conf
+    echo --glance_api_servers=$CLOUD_MYIP:9292 >> /etc/nova/nova-controller.conf
     echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-controller.conf
     echo --max_cores=16 >> /etc/nova/nova-controller.conf
-    echo --s3_dmz=$MYLOCALIP >> /etc/nova/nova-controller.conf
-    echo --osapi_host=$MYLOCALIP >> /etc/nova/nova-controller.conf
+    echo --s3_dmz=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    echo --osapi_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --s3_port=80 >> /etc/nova/nova-controller.conf
-    echo --rabbit_host=$MYLOCALIP >> /etc/nova/nova-controller.conf
-    echo --my_ip=$MYLOCALIP >> /etc/nova/nova-controller.conf
-    echo --ec2_host=$MYLOCALIP >> /etc/nova/nova-controller.conf
+    echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    echo --ec2_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --logdir=/var/log/nova >> /etc/nova/nova-controller.conf
     echo --ec2_port=80 >> /etc/nova/nova-controller.conf
-    echo --sql_connection=mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/nova >> /etc/nova/nova-controller.conf
+    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-controller.conf
     echo --osapi_port=80 >> /etc/nova/nova-controller.conf
     echo --allow_admin_api >> /etc/nova/nova-controller.conf
     echo --scheduler_driver=nova.scheduler.simple.SimpleScheduler >> /etc/nova/nova-controller.conf
@@ -181,17 +181,16 @@ installController () {
     
     chown -R root:nova /etc/nova
     chmod 640 /etc/nova/nova.conf
-
 }
 
 initDatabase () {
-    mysql -uroot -p$DATABASEPASSWORD -e "DROP DATABASE IF EXISTS nova;"
-    mysql -uroot -p$DATABASEPASSWORD -e "CREATE DATABASE nova;"
-    mysql -uroot -p$DATABASEPASSWORD -e "DROP DATABASE IF EXISTS glance;"
-    mysql -uroot -p$DATABASEPASSWORD -e "CREATE DATABASE glance;"
-    mysql -uroot -p$DATABASEPASSWORD -e "DROP DATABASE IF EXISTS keystone;"
-    mysql -uroot -p$DATABASEPASSWORD -e "CREATE DATABASE keystone;"
-    mysql -uroot -p$DATABASEPASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
-    mysql -uroot -p$DATABASEPASSWORD -e "SET PASSWORD FOR 'root'@'%' = PASSWORD('$DATABASEPASSWORD');"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "DROP DATABASE IF EXISTS nova;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "CREATE DATABASE nova;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "DROP DATABASE IF EXISTS glance;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "CREATE DATABASE glance;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "DROP DATABASE IF EXISTS keystone;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "CREATE DATABASE keystone;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "SET PASSWORD FOR 'root'@'%' = PASSWORD('$CLOUD_DBPASSWORD');"
     /usr/bin/nova-manage db sync
 }

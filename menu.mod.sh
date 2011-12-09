@@ -16,6 +16,7 @@ roleSelection () {
 	
 	case $menuitem in
 		Controller)
+			export NEWHOSTNAME=Cloud-Controller	
 			askAllQuestions
 		;;
 	esac
@@ -24,6 +25,7 @@ roleSelection () {
 
 askAllQuestions () {
 	if [ ! "$CLOUD_DBPASSWORD" ]; then askForValue "Database Password"; export CLOUD_DBPASSWORD=$(<"${INPUT}"); fi;
+        if [ ! "$CLOUD_MYIP" ]; then askForValue "Whats the Management IP of this Server?"; export CLOUD_MYIP=$(<"${INPUT}"); fi;
 
 
 	echo $CLOUD_DBPASSWORD
