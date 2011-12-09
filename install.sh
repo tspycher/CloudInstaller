@@ -1,6 +1,7 @@
 #!/bin/bash
-source init.mod
-source roles.mod
+source init.mod.sh
+source roles.mod.sh
+source menu.mod.sh
 for file in ./modules/*; do source ${file}; done;
 
 doAll () {
@@ -29,6 +30,7 @@ if [ ! -n "$1" ]; then
 	echo -e "\t installVolumes"
 	echo -e "\t installFirstImage"
 	echo -e "\t doAll"
+	roleSelection
 else 
 	echo -e "Running Task: $1"
 	$1
