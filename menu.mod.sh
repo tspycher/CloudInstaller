@@ -19,7 +19,7 @@ roleSelection () {
 		Controller)
 			export CLOUD_NEWHOSTNAME=Cloud-Controller	
 			askAllQuestions
-			setupController
+			runAction controller
 		;;
 		Values)
 			showAllAnswers	
