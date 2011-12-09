@@ -9,6 +9,7 @@ roleSelection () {
 		Volume "Install Volume components" \
 		FirstImage "Download and publish an Ubuntu 10.04 Image" \
 		Compute-KVM "Configure a Compute Endpoint based on KVM" \
+		Values "Show all Values" \
 		Exit "Exit to the shell" 2>"${INPUT}"
 	if [ $? == 1 ]; then clear && exit 0; fi
 	
@@ -16,19 +17,24 @@ roleSelection () {
 	
 	case $menuitem in
 		Controller)
-			export NEWHOSTNAME=Cloud-Controller	
+			export CLOUD_NEWHOSTNAME=Cloud-Controller	
 			askAllQuestions
+			setupController
+		;;
+		Values)
+			showAllAnswers	
 		;;
 	esac
 }
 
-
 askAllQuestions () {
 	if [ ! "$CLOUD_DBPASSWORD" ]; then askForValue "Database Password"; export CLOUD_DBPASSWORD=$(<"${INPUT}"); fi;
         if [ ! "$CLOUD_MYIP" ]; then askForValue "Whats the Management IP of this Server?"; export CLOUD_MYIP=$(<"${INPUT}"); fi;
+}
 
-
-	echo $CLOUD_DBPASSWORD
+showAllAnswers () {
+	data=`export | grep -i CLOUD_`
+	runAction "echo $data"
 }
 
 askForValue () {
@@ -37,9 +43,7 @@ askForValue () {
 }
 
 runAction () {
-       	echo -e "Running command $1" > $OUTPUT 
-	echo -e "############################################################\n" >> $OUTPUT
-	dialog --infobox "Processing, please wait..." 3 34; sudo $1 >> "${OUTPUT}" 2>&1
+	dialog --infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
 	dialog --backtitle "$BACK" --title "Action Result" \
                 --textbox $OUTPUT 40 70
 }

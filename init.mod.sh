@@ -1,5 +1,4 @@
-export MYLOCALIP=127.0.0.1
-export DATABASEPASSWORD=nova
+export CLOUD_MYIP=`ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 
 INPUT=/tmp/menu.sh.$$
 OUTPUT=/tmp/output.sh.$$
@@ -14,3 +13,4 @@ if [ ! $DIALOG ]; then
     fi
 fi
 echo "Found dialog at $DIALOG"
+
