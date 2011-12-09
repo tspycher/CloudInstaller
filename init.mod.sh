@@ -10,7 +10,7 @@ DIALOG=`whereis dialog`
 if [ ! $DIALOG ]; then 
     DIALOG=`find /opt -name dialog -print | grep bin 2> /dev/null`
     if [ ! $DIALOG ]; then 
-        echo "Dialog nott installed"; 
+        apt-get -y install dialog 
     fi
 fi
 echo "Found dialog at $DIALOG"
