@@ -1,0 +1,1 @@
+rm $OUTPUT; rm $INPUT

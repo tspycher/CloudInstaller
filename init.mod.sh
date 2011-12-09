@@ -10,7 +10,10 @@ if [ ! "$DIALOG" ]; then
     DIALOG=`find /opt -name dialog -print | grep bin 2> /dev/null`
     if [ ! "$DIALOG" ]; then 
         apt-get -y install dialog 
+	exit
     fi
 fi
+
 echo "Found dialog at $DIALOG"
+export CLOUD_DIALOGBIN=$DIALOG
 
