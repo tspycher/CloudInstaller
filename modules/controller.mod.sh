@@ -26,6 +26,8 @@ installController () {
     sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
     service mysql restart
 
+    touch /etc/nova/nova-controller.conf
+    rm /etc/nova/nova.conf
     ln -s /etc/nova/nova-controller.conf /etc/nova/nova.conf
     sed -i 's/nova.conf/nova-api.conf/g' /etc/init/nova-api.conf
 

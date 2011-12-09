@@ -7,8 +7,7 @@ installKeystone () {
     #ln -s /var/lib/keystone/etc/keystone.conf /etc/keystone/keystone.conf
     sed -i 's@default_store = sqlite@default_store = mysql@g' /etc/keystone/keystone.conf
     sed -i 's@log_file = keystone.log@log_file = /var/log/keystone/keystone.log@g' /etc/keystone/keystone.conf
-    # --> TODO: ACHTUNG PAssword and IP
-    sed -i 's,sqlite:////var/lib/keystone/keystone.db,mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/keystone,g' /etc/keystone/keystone.conf
+    sed -i 's,sqlite:////var/lib/keystone/keystone.db,mysql://root:'$CLOUD_DBPASSWORD'@'$CLOUD_MYIP':3306/keystone,g' /etc/keystone/keystone.conf
     #cd /var/lib/keystone; python setup.py build
     #cd /var/lib/keystone; python setup.py install
     restart keystone
@@ -64,10 +63,10 @@ initKeystone () {
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add nova compute 'Openstack Compute API service'
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add glance image 'Openstack Image service'
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add keystone identity 'Openstack Keystone service'
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova nova http://$MYLOCALIP:80/v1.1/%tenant_id% http://$MYLOCALIP:8774/v1.1/%tenant_id%  http://$MYLOCALIP:8774/v1.1/%tenant_id% 1 1
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova glance http://$MYLOCALIP:9292/v1.1/%tenant_id% http://$MYLOCALIP:9292/v1.1/%tenant_id% http://$MYLOCALIP:9292/v1.1/%tenant_id% 1 1
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova keystone http://$MYLOCALIP:5000/v2.0 http://$MYLOCALIP:35357/v2.0 http://$MYLOCALIP:5000/v2.0 1 1
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf token add 999888777666 admin admin 2015-02-05T00:00
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova nova http://$CLOUD_MYIP:80/v1.1/%tenant_id% http://$CLOUD_MYIP:8774/v1.1/%tenant_id%  http://$CLOUD_MYIP:8774/v1.1/%tenant_id% 1 1
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova glance http://$CLOUD_MYIP:9292/v1.1/%tenant_id% http://$CLOUD_MYIP:9292/v1.1/%tenant_id% http://$CLOUD_MYIP:9292/v1.1/%tenant_id% 1 1
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova keystone http://$CLOUD_MYIP:5000/v2.0 http://$CLOUD_MYIP:35357/v2.0 http://$CLOUD_MYIP:5000/v2.0 1 1
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf token add $CLOUD_ADMINTOKEN admin admin 2015-02-05T00:00
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpoint add admin 1
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpoint add admin 2
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpoint add admin 3

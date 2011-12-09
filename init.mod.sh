@@ -1,3 +1,5 @@
+source preseed.conf
+
 export CLOUD_MYIP=`ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 
 INPUT=/tmp/menu.sh.$$

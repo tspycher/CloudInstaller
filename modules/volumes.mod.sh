@@ -12,17 +12,17 @@ installVolumes () {
     sed -i 's/false/true/g' /etc/default/iscsitarget
     service iscsitarget start
     
-    vgremove -ff nova-volumes; pvcreate -ffy /dev/sdb
-    vgcreate nova-volumes /dev/sdb
+    vgremove -ff nova-volumes; pvcreate -ffy /dev/$CLOUD_ISCSIDISK
+    vgcreate nova-volumes /dev/$CLOUD_ISCSIDISK
     
     echo --verbose > /etc/nova/nova-volume.conf
-    echo --sql_connection=mysql://root:$DATABASEPASSWORD@$MYLOCALIP:3306/nova >> /etc/nova/nova-volume.conf
+    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORCLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-volume.conf
     echo --lock_path=/tmp >> /etc/nova/nova-volume.conf
     echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-volume.conf
     echo --nodaemon >> /etc/nova/nova-volume.conf
     echo --use_local_volumes >> /etc/nova/nova-volume.conf
-    echo --rabbit_host=$MYLOCALIP >> /etc/nova/nova-volume.conf
-    echo --my_ip=$MYLOCALIP >> /etc/nova/nova-volume.conf
+    echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-volume.conf
+    echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-volume.conf
     echo --state_path=/var/lib/nova >> /etc/nova/nova-volume.conf
     echo --logdir=/var/log/nova >> /etc/nova/nova-volume.conf
     echo --use_project_ca >> /etc/nova/nova-volume.conf
@@ -37,7 +37,7 @@ installVolumes () {
 }
 
 installFirstImage () {
-    SERVICE_TOKEN=999888777666
+    SERVICE_TOKEN=$CLOUD_ADMINTOKEN
     IMAGE_NAME='lucid-server-cloudimg-amd64'
     echo "Downloading images..."
     wget http://cloud-images.ubuntu.com/lucid/current/$IMAGE_NAME.tar.gz -O /tmp/$IMAGE_NAME.tar.gz

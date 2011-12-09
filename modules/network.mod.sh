@@ -35,7 +35,7 @@ installNetworking () {
     echo --flat_network_dhcp_start=10.0.0.2 >> /etc/nova/nova-network.conf
     echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-network.conf
     echo --network_manager=nova.network.manager.FlatDHCPManager >> /etc/nova/nova-network.conf
-    echo --ec2_host=$MYLOCALIP >> /etc/nova/nova-network.conf
+    echo --ec2_host=$CLOUD_MYIP >> /etc/nova/nova-network.conf
     echo --logdir=/var/log/nova >> /etc/nova/nova-network.conf
     echo --public_interface=eth0 >> /etc/nova/nova-network.conf
     echo --use_project_ca >> /etc/nova/nova-network.conf

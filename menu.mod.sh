@@ -27,14 +27,17 @@ roleSelection () {
 			runAction network
 		;;
 		Volume)
-			askAllQuestions
-			runAction volume
+			selectDisk	
+			#askAllQuestions
+			#runAction volume
 		;;
 		FirstImage)
 			askAllQuestions
 			runAction installFirstImage
 		;;
 		Compute-KVM)
+		        if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
+
 			askAllQuestions
 			runAction computeKVM	
 		;;
@@ -50,6 +53,15 @@ roleSelection () {
 askAllQuestions () {
 	if [ ! "$CLOUD_DBPASSWORD" ]; then askForValue "Database Password"; export CLOUD_DBPASSWORD=$(<"${INPUT}"); fi;
         if [ ! "$CLOUD_MYIP" ]; then askForValue "Whats the Management IP of this Server?"; export CLOUD_MYIP=$(<"${INPUT}"); fi;
+        if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
+}
+
+selectDisk () {
+	DISK=`sudo ls -1 /dev | grep sd | awk '{print $1" "$1}'`
+	$DIALOG --backtitle "$BACK" --title "[ Delete a Repository]" \
+	--menu "Select Disk for Volume (will be erased!!!)" 10 40 40 $DISK 2>"${INPUT}"
+	disk=$(<"${INPUT}")
+	export CLOUD_ISCSIDISK=$disk
 }
 
 showAllAnswers () {
