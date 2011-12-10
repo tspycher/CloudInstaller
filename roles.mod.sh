@@ -1,11 +1,11 @@
 controller () {
 	installBase
-    	installController
-    	initDatabase
-    	installKeystone
-    	initKeystone
-    	installHorizon
-    	restartAll
+    installController
+    initDatabase
+    installKeystone
+    initKeystone
+    installHorizon
+    restartAll
 }
 
 network () {
@@ -19,6 +19,7 @@ volume () {
 }
 
 computeKVM () {
+	installBase
 	installComputeKVM
 	restartAll
 }

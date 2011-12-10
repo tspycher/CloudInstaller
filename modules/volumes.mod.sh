@@ -37,16 +37,28 @@ installVolumes () {
 }
 
 installFirstImage () {
-    SERVICE_TOKEN=$CLOUD_ADMINTOKEN
-    IMAGE_NAME='lucid-server-cloudimg-amd64'
-    echo "Downloading images..."
-    wget http://cloud-images.ubuntu.com/lucid/current/$IMAGE_NAME.tar.gz -O /tmp/$IMAGE_NAME.tar.gz
-    
+    defCode=oneiric #10.10
+    defType=server
+
+    CODE=${1:-$defCode}
+    TYPE=${2:-$defType}
+
+    IMAGE_NAME="$CODE-$TYPE-cloudimg-amd64"
+    IMAGE_FRIENDLYNAME="Ubuntu-$CODE-$TYPE_64"
+
+    echo "Downloading images $IMAGE_NAME..."
+    if [ ! -e "/tmp/$IMAGE_NAME.tar.gz" ]; then 
+        wget -nv http://cloud-images.ubuntu.com/$CODE/current/$IMAGE_NAME.tar.gz -O /tmp/$IMAGE_NAME.tar.gz
+    fi
+
+    if [ ! -e "/tmp/$IMAGE_NAME.tar.gz" ]; then return 1; fi
+
     mkdir -p /tmp/images
-    tar -zxf /tmp/$IMAGE_NAME.tar.gz  -C /tmp/images
-    
-    RVAL=`glance add -A $SERVICE_TOKEN name="ubuntu-10.04.2-kernel" is_public=true container_format=aki disk_format=aki < /tmp/images/$IMAGE_NAME-vmlinuz*`
+    if [ ! -e "/tmp/images/$IMAGE_NAME.img" ]; then
+        tar -zxf /tmp/$IMAGE_NAME.tar.gz  -C /tmp/images
+    fi
+
+    RVAL=`glance add -A $CLOUD_ADMINTOKEN name="$IMAGE_FRIENDLYNAME-kernel" is_public=true container_format=aki disk_format=aki < /tmp/images/$IMAGE_NAME-vmlinuz*`
     KERNEL_ID=`echo $RVAL | cut -d":" -f2 | tr -d " "`
-    glance add -A $SERVICE_TOKEN name="ubuntu-10.04.2" is_public=true container_format=ami disk_format=ami kernel_id=$KERNEL_ID < /tmp/images/$IMAGE_NAME.img
-    glance index -A $SERVICE_TOKEN
+    glance add -A $CLOUD_ADMINTOKEN name="$IMAGE_FRIENDLYNAME" is_public=true container_format=ami disk_format=ami kernel_id=$KERNEL_ID < /tmp/images/$IMAGE_NAME.img    
 }

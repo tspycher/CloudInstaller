@@ -34,11 +34,10 @@ roleSelection () {
 		;;
 		FirstImage)
 			askAllQuestions
-			runAction installFirstImage
+            runAction "installFirstImage"
 		;;
 		Compute-KVM)
-		        if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
-
+		    if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
 			askAllQuestions
 			runAction computeKVM	
 		;;
@@ -49,7 +48,7 @@ roleSelection () {
 			showAllAnswers	
 		;;
 		Verify)
-		        if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
+		    if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
 			runAction verify
 		;;
 		Exit)
@@ -60,8 +59,8 @@ roleSelection () {
 
 askAllQuestions () {
 	if [ ! "$CLOUD_DBPASSWORD" ]; then askForValue "Database Password"; export CLOUD_DBPASSWORD=$(<"${INPUT}"); fi;
-        if [ ! "$CLOUD_MYIP" ]; then askForValue "Whats the Management IP of this Server?"; export CLOUD_MYIP=$(<"${INPUT}"); fi;
-        if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
+    if [ ! "$CLOUD_MYIP" ]; then askForValue "Whats the Management IP of this Server?"; export CLOUD_MYIP=$(<"${INPUT}"); fi;
+    if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
 }
 
 selectDisk () {
@@ -74,7 +73,7 @@ selectDisk () {
 
 showAllAnswers () {
 	data=`export | grep -i CLOUD_`
-	runAction "echo $data"
+	runAction "echo -e $data"
 }
 
 askForValue () {
