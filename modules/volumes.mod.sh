@@ -29,7 +29,7 @@ installVolumes () {
     
     # Configure Glance for keystone auth
     sed -i 's/pipeline = context/pipeline = authtoken keystone_shim context/g' /etc/glance/glance-registry.conf
-    sed -i 's/pipeline = versionnegotiation/pipeline = versionnegotiation authtoken/g' /etc/glance/glance-registry.conf
+    sed -i 's/pipeline = versionnegotiation/pipeline = versionnegotiation authtoken/g' /etc/glance/glance-api.conf
     
     stop nova-volume; start nova-volume
     /etc/init.d/glance-api stop; /etc/init.d/glance-api start
