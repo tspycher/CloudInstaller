@@ -17,8 +17,6 @@ installBase () {
     apt-get -y install nova-common
     apt-get -y install nova-compute
     apt-get -y install nova-doc
-
-    #apt-get -y install nova-compute-kvm
     
     ## Global Software
     apt-get -y install git

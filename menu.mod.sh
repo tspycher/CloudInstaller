@@ -19,7 +19,7 @@ roleSelection () {
 	
 	case $menuitem in
 		Controller)
-			export CLOUD_NEWHOSTNAME=Cloud-Controller	
+            if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Controller"; fi;
 			askAllQuestions
 			runAction controller
 		;;
@@ -37,7 +37,10 @@ roleSelection () {
             runAction "installFirstImage"
 		;;
 		Compute-KVM)
-		    if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
+            if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
+            if [ ! "$CLOUD_COMPUTENUMBER" ]; then askForValue "Identifier for this Compute Node"; export CLOUD_COMPUTENUMBER=$(<"${INPUT}"); fi;
+            if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Compute$CLOUD_COMPUTENUMBER"; fi;
+
 			askAllQuestions
 			runAction computeKVM	
 		;;
