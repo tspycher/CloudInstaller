@@ -28,7 +28,8 @@ installCompute () {
     		installComputeQEMU
     	;;	
 	esac
-    
+	
+    apt-get -y install mysql-client-core-5.1
 	apt-get -y install vlan
 	apt-get -y install open-iscsi
 	apt-get -y install nfs-common
@@ -61,7 +62,7 @@ installCompute () {
 	echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-compute.conf
 	echo --vncserver_host=$CLOUD_MYIP >> /etc/nova/nova-compute.conf
 	echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-compute.conf
-	echo --libvirt_type=$CLOUD_VIRTUALISATION #qemu,kvm >> /etc/nova/nova-compute.conf
+	echo --libvirt_type=$CLOUD_VIRTUALISATION >> /etc/nova/nova-compute.conf #qemu,kvm 
 	echo --instances_path=/var/lib/nova/instances >> /etc/nova/nova-compute.conf
 	echo --logdir=/var/log/nova >> /etc/nova/nova-compute.conf
 	echo --resume_guests_state_on_host_boot >> /etc/nova/nova-compute.conf

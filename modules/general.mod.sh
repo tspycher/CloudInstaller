@@ -102,6 +102,8 @@ installBase () {
 }
 
 restartAll () {
+    /etc/init.d/rabbitmq-server stop
+    /etc/init.d/rabbitmq-server start
     stop keystone; start keystone
     stop glance-registry; start glance-registry
     stop glance-api; start glance-api
@@ -111,5 +113,6 @@ restartAll () {
     stop nova-objectstore; start nova-objectstore
     stop nova-vncproxy; start nova-vncproxy
     stop nova-ajax-console-proxy; start nova-ajax-console-proxy
+    stop nova-compute; start nova-compute
     service apache2 restart
 }
