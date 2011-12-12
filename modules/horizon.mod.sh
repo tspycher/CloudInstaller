@@ -1,4 +1,26 @@
+installHorizonDev () {
+	apt-get -y install python-virtualenv python-pip virtualenvwrapper
+	
+	HORIZONBASE=/usr/share/openstack-dashboard-dev
+	mkdir -p $HORIZONBASE
+	git clone https://github.com/4P/horizon $HORIZONBASE
+	cd $HORIZONBASE/openstack-dashboard/
+    cp $HORIZONBASE/openstack-dashboard/local/local_settings.py.example $HORIZONBASE/openstack-dashboard/local/local_settings.py
+    echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local_settings.py
+	
+	sed -i 's/quantum.git#egg=quantum/@stable\/diablo#egg=quantum/g' $HORIZONBASE/openstack-dashboard/tools/pip-requires
+	echo 'pycrypto >= 2.2' >> $HORIZONBASE/openstack-dashboard/tools/pip-requires
+	
+	python $HORIZONBASE/openstack-dashboard/tools/install_venv.py
+  
+	$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py syncdb
+	#$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py runserver 0.0.0.0:8001 &
+}
+
+
 installHorizon () {
+    installHorizonDev
+    
     apt-get -y install openstack-dashboard
     apt-get -y install nova-vncproxy
     apt-get -y install nova-ajax-console-proxy

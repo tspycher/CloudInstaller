@@ -78,10 +78,12 @@ askAllQuestions () {
 
 selectDisk () {
 	DISK=`sudo ls -1 /dev | grep sd | awk '{print $1" "$1}'`
-	$DIALOG --backtitle "$MENUBACKTITLE" --title "[ Delete a Repository]" \
-	--menu "Select Disk for Volume (will be erased!!!)" 30 40 40 $DISK 2>"${INPUT}"
-	disk=$(<"${INPUT}")
-	export CLOUD_ISCSIDISK=$disk
+	if [ ! "$CLOUD_ISCSIDISK" ]; then
+		$DIALOG --backtitle "$MENUBACKTITLE" --title "[ Delete a Repository]" \
+		--menu "Select Disk for Volume (will be erased!!!)" 30 40 40 $DISK 2>"${INPUT}"
+		disk=$(<"${INPUT}")
+		export CLOUD_ISCSIDISK=$disk
+	fi
 }
 
 showAllAnswers () {

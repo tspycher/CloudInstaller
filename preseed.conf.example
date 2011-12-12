@@ -1,12 +1,18 @@
-# The local ip
+# Autotdetected Settings
+# AUTODETECTED: The local ip
 export CLOUD_MYIP=""
 
-# The new hostname, will be set on installation of controller or compute
+# AUTODETECTED: The new hostname, will be set on installation of controller or compute
 export CLOUD_NEWHOSTNAME=""
 
-# dialog binary location
+# AUTODETECTED binary location
 export CLOUD_DIALOGBIN=""
 
+# AUTODETECTED: The engine used for virtualisation
+export CLOUD_VIRTUALISATION=""
+
+
+# Manually entered/asked Settings
 # Database Password
 export CLOUD_DBPASSWORD=""
 
@@ -18,9 +24,6 @@ export CLOUD_CONTROLLERIP=""
 
 # The identifier of a compute node
 export CLOUD_COMPUTENUMBER=""
-
-# The engine used for virtualisation
-export CLOUD_VIRTUALISATION=""
 
 # The device for the iscsi target. This device WILL BE ERASED!!!
 export CLOUD_ISCSIDISK=""

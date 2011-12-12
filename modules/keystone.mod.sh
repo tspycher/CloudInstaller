@@ -1,4 +1,5 @@
 installKeystone () {
+    add-apt-repository -y ppa:keystone-core/trunk
     apt-get -y install keystone
     apt-get -y install keystone-doc
     apt-get -y install python-keystone
