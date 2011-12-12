@@ -8,6 +8,15 @@ controller () {
     restartAll
 }
 
+horizonOnly () {
+	installHorizon
+}
+
+keystoneOnly () {
+	installKeystone
+	initKeystone	
+}
+
 network () {
 	installNetworking
 	restartAll

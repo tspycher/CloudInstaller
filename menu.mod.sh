@@ -5,6 +5,8 @@ roleSelection () {
 		--title "[ Role Selection ]" \
 		--menu "Please select one of the following roles" 20 80 12 \
 		Controller "Install an controller (MySQL,Rabbit,Compute,Keystone,Horizon)" \
+		Horizon "Install Horizon only" \
+		Keystone "Install Keystone only" \
 		Network "Install Network components" \
 		Volume "Install Volume components" \
 		FirstImage "Download and publish an Ubuntu 10.04 Image" \
@@ -22,6 +24,14 @@ roleSelection () {
             if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Controller"; fi;
 			askAllQuestions
 			runAction controller "Installing Controller Node. This will take some minutes..."
+		;;
+		Horizon)
+			askAllQuestions
+			runAction horizonOnly "Install only Horzon"
+		;;
+		Keystone)
+			askAllQuestions
+		    runAction keystoneOnly "Install only Keystone"
 		;;
 		Network)
 			askAllQuestions
