@@ -83,8 +83,8 @@ selectDisk () {
 }
 
 showAllAnswers () {
-	data=`export | grep -i CLOUD_`
-	runAction "echo -e $data"
+	data=`env | grep -i CLOUD_`
+	runAction 'echo -e "'$data'"'
 }
 
 askForValue () {
