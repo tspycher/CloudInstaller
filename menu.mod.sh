@@ -14,6 +14,7 @@ roleSelection () {
 		Preset "Set all Values" \
 		Values "Show all Values" \
 		Verify "Verify your installation" \
+		StartHorizon "Start Horizon DevServer" \
 		Exit "Exit to the shell" 2>"${INPUT}"
 	if [ $? == 1 ]; then clear && exit 0; fi
 	
@@ -73,6 +74,9 @@ roleSelection () {
 		Verify)
 		    if [ ! "$CLOUD_ADMINTOKEN" ]; then askForValue "Define the Admin Token"; export CLOUD_ADMINTOKEN=$(<"${INPUT}"); fi;
 			runAction verify
+		;;
+		StartHorizon)
+			startHorizonDev
 		;;
 		Exit)
 			exit	

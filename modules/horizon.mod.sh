@@ -1,7 +1,8 @@
+HORIZONBASE=/usr/share/openstack-dashboard-dev
+
 installHorizonDev () {
 	apt-get -y install python-virtualenv python-pip virtualenvwrapper
 	
-	HORIZONBASE=/usr/share/openstack-dashboard-dev
 	mkdir -p $HORIZONBASE
 	git clone https://github.com/4P/horizon $HORIZONBASE
 	cd $HORIZONBASE/openstack-dashboard/
@@ -14,9 +15,13 @@ installHorizonDev () {
 	python $HORIZONBASE/openstack-dashboard/tools/install_venv.py
   
 	$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py syncdb
-	#$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py runserver 0.0.0.0:8001 &
 }
 
+
+startHorizonDev () {
+	clear
+	$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py runserver 0.0.0.0:8001
+}
 
 installHorizon () {
     installHorizonDev
