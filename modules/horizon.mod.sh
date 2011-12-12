@@ -9,11 +9,14 @@ installHorizonDev () {
     cp $HORIZONBASE/openstack-dashboard/local/local_settings.py.example $HORIZONBASE/openstack-dashboard/local/local_settings.py
     echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local_settings.py
 	
-	sed -i 's/quantum.git#egg=quantum/@stable\/diablo#egg=quantum/g' $HORIZONBASE/openstack-dashboard/tools/pip-requires
+	# https://github.com/openstack/quantum.git#egg=quantum
+	# with	
+	# https://github.com/openstack/quantum.git@stable/diablo#egg=quantum
+	sed -i 's/quantum.git#egg=quantum/quantum.git@stable\/diablo#egg=quantum/g' $HORIZONBASE/openstack-dashboard/tools/pip-requires
 	echo 'pycrypto >= 2.2' >> $HORIZONBASE/openstack-dashboard/tools/pip-requires
 	
 	python $HORIZONBASE/openstack-dashboard/tools/install_venv.py
-  
+
 	$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py syncdb
 }
 
@@ -38,11 +41,12 @@ installHorizon () {
     cd horizon; python django-openstack/setup.py install; cd ..;
     cd openstackx; python setup.py install; cd ..;
     cd
-    
+
+    chown -R nova:nova /var/lib/openstack-dashboard/    
     # Horizon
     cp /usr/share/openstack-dashboard/local/local_settings.py.example /usr/share/openstack-dashboard/local/local_settings.py
     ln -s /usr/share/openstack-dashboard/local /etc/openstack-dashboard/local
-    /usr/share/openstack-dashboard/dashboard/manage.py syncdb
+    sudo -u nova /usr/share/openstack-dashboard/dashboard/manage.py syncdb
     
     echo > /etc/apache2/sites-available/default
     echo WSGIRestrictStdout Off >> /etc/apache2/sites-available/default
