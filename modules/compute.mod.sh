@@ -1,3 +1,15 @@
+checkVirtualisation () {
+	if [ -e /usr/sbin/kvm-ok ]; then
+		/usr/sbin/kvm-ok
+		if [ $? == 0 ]; then
+			# We've got KVM Support
+			export CLOUD_VIRTUALISATION=kvm
+		else
+			export CLOUD_VIRTUALISATION=qemu
+		fi
+	fi	
+}
+
 installComputeKVM () {
 	echo -e "Steps to install KVM"
 	apt-get -y install nova-compute-kvm

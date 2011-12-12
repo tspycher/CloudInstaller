@@ -8,7 +8,7 @@ roleSelection () {
 		Network "Install Network components" \
 		Volume "Install Volume components" \
 		FirstImage "Download and publish an Ubuntu 10.04 Image" \
-		Compute-KVM "Configure a Compute Endpoint based on KVM" \
+		ComputeRun "Configure a Compute Endpoint" \
 		Preset "Set all Values" \
 		Values "Show all Values" \
 		Verify "Verify your installation" \
@@ -36,10 +36,12 @@ roleSelection () {
 			askAllQuestions
             runAction installFirstImage "Installing The First Image"
 		;;
-		Compute-KVM)
+		ComputeRun)
             if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
             if [ ! "$CLOUD_COMPUTENUMBER" ]; then askForValue "Identifier for this Compute Node"; export CLOUD_COMPUTENUMBER=$(<"${INPUT}"); fi;
             if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Compute$CLOUD_COMPUTENUMBER"; fi;
+			
+			checkVirtualisation
 			if [ ! "$CLOUD_VIRTUALISATION" ]; then
 				$DIALOG --backtitle "$MENUBACKTITLE" \
 						--title "[ Virtualisation Selection ]" \
