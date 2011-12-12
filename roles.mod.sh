@@ -18,8 +18,8 @@ volume () {
 	restartAll
 }
 
-computeKVM () {
+compute () {
 	installBase
-	installComputeKVM
+	installCompute
 	restartAll
 }

@@ -3,9 +3,6 @@ source init.mod.sh
 source roles.mod.sh
 source menu.mod.sh
 
-# Loading all modules
-for file in ./modules/*; do source ${file}; done;
-
 doAll () {
     installBase
     installController

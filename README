@@ -1,0 +1,15 @@
+General
+=======
+This is a simple shellscript for installing an Openstack Cloud on multible or single node. The installation is guided with dialogs which makes the configuration much easier.
+
+Usage
+=====
+
+::
+./install.sh
+::
+
+If you want to preconfigure all Settings you can copy the preesed.conf.example to preseed.conf and set the variables.
+::
+cp preseed.conf.example preseed.conf
+::

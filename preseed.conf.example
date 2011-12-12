@@ -1,0 +1,26 @@
+# The local ip
+export CLOUD_MYIP=""
+
+# The new hostname, will be set on installation of controller or compute
+export CLOUD_NEWHOSTNAME=""
+
+# dialog binary location
+export CLOUD_DIALOGBIN=""
+
+# Database Password
+export CLOUD_DBPASSWORD=""
+
+# The admintoken, will be used to add the first image
+export CLOUD_ADMINTOKEN=""
+
+# The IP of the controller, will be used on installation of a compute node
+export CLOUD_CONTROLLERIP=""
+
+# The identifier of a compute node
+export CLOUD_COMPUTENUMBER=""
+
+# The engine used for virtualisation
+export CLOUD_VIRTUALISATION=""
+
+# The device for the iscsi target. This device WILL BE ERASED!!!
+export CLOUD_ISCSIDISK=""

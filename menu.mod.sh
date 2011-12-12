@@ -40,9 +40,17 @@ roleSelection () {
             if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
             if [ ! "$CLOUD_COMPUTENUMBER" ]; then askForValue "Identifier for this Compute Node"; export CLOUD_COMPUTENUMBER=$(<"${INPUT}"); fi;
             if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Compute$CLOUD_COMPUTENUMBER"; fi;
-
+			if [ ! "$CLOUD_VIRTUALISATION" ]; then
+				$DIALOG --backtitle "$MENUBACKTITLE" \
+						--title "[ Virtualisation Selection ]" \
+						--menu "Select an virtualisation engine" 20 80 12 \
+						kvm "Install an controller (MySQL,Rabbit,Compute,Keystone,Horizon)" \
+						qemu "Install Network components" 2>"${INPUT}"
+				export CLOUD_VIRTUALISATION==$(<"${INPUT}")
+			fi
+			
 			askAllQuestions
-			runAction computeKVM	
+			runAction compute	
 		;;
 		Preset)
 			askAllQuestions
