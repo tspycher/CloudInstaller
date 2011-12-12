@@ -41,7 +41,9 @@ initKeystone () {
     
     #?????????
     keystoneAdminToken
-        
+    
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf
+    
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add admin
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add demo
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf user add admin password

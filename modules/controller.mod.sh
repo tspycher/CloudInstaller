@@ -177,6 +177,7 @@ installController () {
     echo [app:osversionapp] >> /etc/nova/nova-api.conf
     echo paste.app_factory = nova.api.openstack:Versions.factory >> /etc/nova/nova-api.conf
     
+    chown -R nova:nova /usr/lib/python2.7/dist-packages
     chown -R root:nova /etc/nova
     chmod 640 /etc/nova/nova.conf
 }
