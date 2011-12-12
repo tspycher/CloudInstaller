@@ -1,12 +1,12 @@
-if [ -e "preseed.conf"]; then source preseed.conf; fi
+if [ -e "preseed.conf" ]; then source preseed.conf; fi
 
 export CLOUD_MYIP=`ifconfig eth0 | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1}'`
 
 # Loading all modules
 for file in ./modules/*; do source ${file}; done;
 
-INPUT=/tmp/menu.sh.$$
-OUTPUT=/tmp/output.sh.$$
+INPUT=/tmp/input.$$
+OUTPUT=/tmp/output.$$
 
 trap "rm $OUTPUT; rm $INPUT; exit" SIGHUP SIGINT SIGTERM
 

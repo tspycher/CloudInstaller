@@ -21,20 +21,20 @@ roleSelection () {
 		Controller)
             if [ ! "$CLOUD_NEWHOSTNAME" ]; then export CLOUD_NEWHOSTNAME="Cloud-Controller"; fi;
 			askAllQuestions
-			runAction controller
+			runAction controller "Installing Controller Node. This will take some minutes..."
 		;;
 		Network)
 			askAllQuestions
-			runAction network
+			runAction network "Installing Network Components"
 		;;
 		Volume)
 			selectDisk	
 			askAllQuestions
-			runAction volume
+			runAction volume "Installing Volume Components"
 		;;
 		FirstImage)
 			askAllQuestions
-            runAction "installFirstImage"
+            runAction installFirstImage "Installing The First Image"
 		;;
 		Compute-KVM)
             if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
@@ -50,7 +50,7 @@ roleSelection () {
 			fi
 			
 			askAllQuestions
-			runAction compute	
+			runAction compute "Installing Compute node for $CLOUD_VIRTUALISATION virtualisation"
 		;;
 		Preset)
 			askAllQuestions
@@ -93,8 +93,14 @@ askForValue () {
 }
 
 runAction () {
+	if [ "$2" ]; then messageBox "$2"; fi;
+	
 	$DIALOG --backtitle "$MENUBACKTITLE" --infobox "Processing, please wait..." 3 34; $1 > "${OUTPUT}" 2>&1
 	$DIALOG --backtitle "$MENUBACKTITLE" --title "Action Result" \
                 --textbox $OUTPUT 40 70
+}
+
+messageBox () {
+	$DIALOG --backtitle "$MENUBACKTITLE" --msgbox "$1" 7 80	
 }
 

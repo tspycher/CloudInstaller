@@ -1,4 +1,4 @@
-controller () {
+controller () {	
 	installBase
     installController
     initDatabase
@@ -13,7 +13,7 @@ network () {
 	restartAll
 }
 
-volume () {
+volume () {	
 	installVolumes
 	restartAll
 }

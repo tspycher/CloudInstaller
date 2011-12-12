@@ -7,8 +7,8 @@ installComputeQEMU () {
 	echo -e "Steps to install QEMU"	
 }
 	
-installCompute () {   
-    case $CLOUD_VIRTUALISATION in
+installCompute () {      
+     case $CLOUD_VIRTUALISATION in
     	kvm)
     	    installComputeKVM
     	;;
