@@ -5,21 +5,19 @@ installKeystone () {
     apt-get -y install keystone-doc
     apt-get -y install python-keystone
 
-    #ln -s /var/lib/keystone/keystone /var/lib/nova/keystone
-    #ln -s /var/lib/keystone/etc/keystone.conf /etc/keystone/keystone.conf
     sed -i 's@default_store = sqlite@default_store = mysql@g' /etc/keystone/keystone.conf
     sed -i 's@log_file = keystone.log@log_file = /var/log/keystone/keystone.log@g' /etc/keystone/keystone.conf
     sed -i 's,sqlite:////var/lib/keystone/keystone.db,mysql://root:'$CLOUD_DBPASSWORD'@'$CLOUD_MYIP':3306/keystone,g' /etc/keystone/keystone.conf
-    #cd /var/lib/keystone; python setup.py build
-    #cd /var/lib/keystone; python setup.py install
-    restart keystone
+
+	# fixes the "Unhandled error" for tpl files
+	ln -s /usr/share/pyshared/keystone /usr/keystone
     
-    #easy_install /opt/pip_downloads/httplib2-0.6.0.tar.gz
-    #easy_install /opt/pip_downloads/prettytable-0.5.zip
-    #easy_install /opt/pip_downloads/argparse-1.1.zip
-    #cd /var/lib/openstack.compute; python setup.py develop
-    #export PIP_DOWNLOAD_CACHE=/opt/pip_downloads; cd /var/lib/openstackx; python setup.py develop
-    #export PIP_DOWNLOAD_CACHE=/opt/pip_downloads; cd /var/lib/horizon/openstack-dashboard; python tools/install_venv.py
+    restart keystone
+
+}
+
+keystoneAdminToken () {
+	export AUTH_TOKEN=`curl -s -d "{\"auth\":{\"passwordCredentials\": {\"username\": \"admin\", \"password\": \"password\"}}}" -H "Content-type: application/json" http://localhost:5000/v2.0/tokens | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"`
 }
 
 initKeystone () {
@@ -42,8 +40,8 @@ initKeystone () {
     export OS_AUTH_STRATEGY=$NOVA_AUTH_STRATEGY
     
     #?????????
-    #export AUTH_TOKEN=`curl -s -d "{\"auth\":{\"passwordCredentials\": {\"username\": \"$NOVA_USERNAME\", \"password\": \"$NOVA_API_KEY\"}}}" -H "Content-type: application/json" http://$HOST_IP:5000/v2.0/tokens | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"`
-    
+    keystoneAdminToken
+        
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add admin
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add demo
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf user add admin password
