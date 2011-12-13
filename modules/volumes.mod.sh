@@ -37,7 +37,7 @@ installVolumes () {
     /etc/init.d/glance-registry stop; /etc/init.d/glance-registry start
 }
 
-installFirstImage () {
+installImage () {
     defCode=oneiric #10.10
     defType=server
 
@@ -45,7 +45,7 @@ installFirstImage () {
     TYPE=${2:-$defType}
 
     IMAGE_NAME="$CODE-$TYPE-cloudimg-amd64"
-    IMAGE_FRIENDLYNAME="Ubuntu-$CODE-$TYPE_64"
+    IMAGE_FRIENDLYNAME="Ubuntu-$CODE-$TYPE"
 
     echo "Downloading images $IMAGE_NAME..."
     if [ ! -e "/tmp/$IMAGE_NAME.tar.gz" ]; then 

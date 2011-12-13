@@ -20,7 +20,7 @@ installComputeQEMU () {
 }
 	
 installCompute () {      
-     case $CLOUD_VIRTUALISATION in
+	case $CLOUD_VIRTUALISATION in
     	kvm)
     	    installComputeKVM
     	;;

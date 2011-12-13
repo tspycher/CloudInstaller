@@ -10,11 +10,13 @@ controller () {
 
 horizonOnly () {
 	installHorizon
+	restartAll
 }
 
 keystoneOnly () {
 	installKeystone
-	initKeystone	
+	initKeystone
+	restartAll		
 }
 
 network () {

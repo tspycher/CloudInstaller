@@ -20,6 +20,7 @@ installKeystone () {
 
 keystoneAdminToken () {
 	export AUTH_TOKEN=`curl -s -d "{\"auth\":{\"passwordCredentials\": {\"username\": \"admin\", \"password\": \"password\"}}}" -H "Content-type: application/json" http://localhost:5000/v2.0/tokens | python -c "import sys; import json; tok = json.loads(sys.stdin.read()); print tok['access']['token']['id'];"`
+	echo "Got Authtoken: $AUTH_TOKEN"
 }
 
 initKeystone () {

@@ -1,10 +1,26 @@
 verify () {
 	nova-manage service list
 	glance index -A $CLOUD_ADMINTOKEN
+
+	verifyEuca	
+}
+
+verifyEuca () {
+	mkdir -p ~/creds
+	nova-manage db sync
+	nova-manage user admin novaadmin
+	nova-manage project zipfile proj novaadmin ~/creds/creds.zip
+	cd ~/creds/
+	unzip creds.zip
+	nova-manage user exports novaadmin >> novarc
+	source novarc 
+	euca-describe-availability-zones --debug verbose	
+    euca-describe-images --debug
 }
 
 installBase () {
     apt-get -y update
+    if [ ! "$CLOUD_NEWHOSTNAME" ]; then askForValue "Hostnmae"; export CLOUD_NEWHOSTNAME=$(<"${INPUT}"); fi;
     
     hostname $CLOUD_NEWHOSTNAME 
     echo "$CLOUD_NEWHOSTNAME" > /etc/hostname

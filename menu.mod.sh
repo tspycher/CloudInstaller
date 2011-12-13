@@ -45,7 +45,7 @@ roleSelection () {
 		;;
 		FirstImage)
 			askAllQuestions
-            runAction installFirstImage "Installing The First Image"
+            runAction installImage "Installing The First Image"
 		;;
 		ComputeRun)
             if [ ! "$CLOUD_CONTROLLERIP" ]; then askForValue "IP of the Controller"; export CLOUD_CONTROLLERIP=$(<"${INPUT}"); fi;
