@@ -1,4 +1,6 @@
 installKeystone () {
+    apt-get -y install keystone 2>/dev/null | grep "Setting up"
+    
     add-apt-repository -y ppa:keystone-core/trunk
     apt-get update
     apt-get -y install keystone 2>/dev/null | grep "Setting up"
