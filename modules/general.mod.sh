@@ -95,17 +95,20 @@ installBase () {
 }
 
 restartAll () {
-    /etc/init.d/rabbitmq-server stop
+	/etc/init.d/rabbitmq-server stop
     /etc/init.d/rabbitmq-server start
-    stop keystone; start keystone
-    stop glance-registry; start glance-registry
-    stop glance-api; start glance-api
-    #stop glance-scrubber; start glance-scrubber
-    stop nova-api; start nova-api
-    stop nova-scheduler; start nova-scheduler
-    stop nova-objectstore; start nova-objectstore
-    stop nova-vncproxy; start nova-vncproxy
-    stop nova-ajax-console-proxy; start nova-ajax-console-proxy
-    stop nova-compute; start nova-compute
+	service iscsitarget restart
+    restart libvirt-bin
+    restart nova-network
+    restart nova-compute
+    restart nova-api
+	restart nova-objectstore
+    restart nova-scheduler
+    restart nova-volume
+    restart keystone
+    restart glance-api
+    restart glance-registry
+    restart nova-vncproxy
+    restart stop nova-ajax-console-proxy
     service apache2 restart
 }

@@ -1,9 +1,9 @@
 installKeystone () {
     apt-get -y install keystone 2>/dev/null | grep "Setting up"
     
-    add-apt-repository -y ppa:keystone-core/trunk
-    apt-get update
-    apt-get -y install keystone 2>/dev/null | grep "Setting up"
+    #add-apt-repository -y ppa:keystone-core/trunk
+    #apt-get update
+    #apt-get -y install keystone 2>/dev/null | grep "Setting up"
     apt-get -y install keystone-doc 2>/dev/null | grep "Setting up"
     apt-get -y install python-keystone 2>/dev/null | grep "Setting up"
 
@@ -14,8 +14,7 @@ installKeystone () {
 	# fixes the "Unhandled error" for tpl files
 	ln -s /usr/share/pyshared/keystone /usr/keystone
     
-    restart keystone
-
+    restartAll
 }
 
 keystoneAdminToken () {
@@ -42,11 +41,9 @@ initKeystone () {
     export OS_AUTH_URL=$NOVA_URL
     export OS_AUTH_STRATEGY=$NOVA_AUTH_STRATEGY
     
-    #?????????
     keystoneAdminToken
     
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf
-    
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add admin
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add demo
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf user add admin password

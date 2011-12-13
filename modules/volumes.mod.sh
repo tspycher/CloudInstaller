@@ -1,5 +1,6 @@
 installVolumes () {
-    # Creating Volumes
+    CONFIGFILE=/etc/nova/nova-volume.conf.cloudinstaller
+	# Creating Volumes
     apt-get -y install glance | grep "Setting up"
     apt-get -y install nova-volume | grep "Setting up"
     apt-get -y install kpartx | grep "Setting up"
@@ -16,25 +17,23 @@ installVolumes () {
     vgremove -ff nova-volumes; pvcreate -ffy /dev/$CLOUD_ISCSIDISK
     vgcreate nova-volumes /dev/$CLOUD_ISCSIDISK
     
-    echo --verbose > /etc/nova/nova-volume.conf
-    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-volume.conf
-    echo --lock_path=/tmp >> /etc/nova/nova-volume.conf
-    echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-volume.conf
-    echo --nodaemon >> /etc/nova/nova-volume.conf
-    echo --use_local_volumes >> /etc/nova/nova-volume.conf
-    echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-volume.conf
-    echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-volume.conf
-    echo --state_path=/var/lib/nova >> /etc/nova/nova-volume.conf
-    echo --logdir=/var/log/nova >> /etc/nova/nova-volume.conf
-    echo --use_project_ca >> /etc/nova/nova-volume.conf
+    echo --verbose > $CONFIGFILE
+    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> $CONFIGFILE
+    echo --lock_path=/tmp >> $CONFIGFILE
+    echo --auth_driver=nova.auth.dbdriver.DbDriver >> $CONFIGFILE
+    echo --nodaemon >> $CONFIGFILE
+    echo --use_local_volumes >> $CONFIGFILE
+    echo --rabbit_host=$CLOUD_MYIP >> $CONFIGFILE
+    echo --my_ip=$CLOUD_MYIP >> $CONFIGFILE
+    echo --state_path=/var/lib/nova >> $CONFIGFILE
+    echo --logdir=/var/log/nova >> $CONFIGFILE
+    echo --use_project_ca >> $CONFIGFILE
     
     # Configure Glance for keystone auth
     sed -i 's/pipeline = context/pipeline = authtoken keystone_shim context/g' /etc/glance/glance-registry.conf
     sed -i 's/pipeline = versionnegotiation/pipeline = versionnegotiation authtoken/g' /etc/glance/glance-api.conf
     
-    stop nova-volume; start nova-volume
-    /etc/init.d/glance-api stop; /etc/init.d/glance-api start
-    /etc/init.d/glance-registry stop; /etc/init.d/glance-registry start
+    restartAll
 }
 
 installImage () {

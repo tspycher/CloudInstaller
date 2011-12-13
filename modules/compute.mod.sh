@@ -20,6 +20,8 @@ installComputeQEMU () {
 }
 	
 installCompute () {      
+	CONFIGFILE=/etc/nova/nova-compute.conf.cloudinstaller
+	
 	case $CLOUD_VIRTUALISATION in
     	kvm)
     	    installComputeKVM
@@ -44,37 +46,36 @@ installCompute () {
 	sed -i 's/inet dhcp/inet dhcp\n\tpost-up ifconfig eth1 0.0.0.0/g' /etc/network/interfaces
 	ifconfig eth1 0.0.0.0
 
-    touch /etc/nova/nova-compute.conf
-    rm /etc/nova/nova.conf
-    ln -s /etc/nova/nova-compute.conf /etc/nova/nova.conf
+    #touch $CONFIGFILE
+    #rm /etc/nova/nova.conf
+    #ln -s $CONFIGFILE /etc/nova/nova.conf
    
-    echo --iscsi_ip_prefix=$CLOUD_CONTROLLERIP > /etc/nova/nova-compute.conf
-	echo --libvirt_use_virtio_for_bridges=false >> /etc/nova/nova-compute.conf
-	echo --verbose >> /etc/nova/nova-compute.conf
-	echo --rabbit_host=$CLOUD_CONTROLLERIP >> /etc/nova/nova-compute.conf
-	echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-compute.conf
-	echo --num_targets=100 >> /etc/nova/nova-compute.conf
-	echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_CONTROLLERIP:3306/nova >> /etc/nova/nova-compute.conf
-	echo --vncproxy_url=http://$CLOUD_CONTROLLERIP:6080 >> /etc/nova/nova-compute.conf
-	echo --lock_path=/tmp >> /etc/nova/nova-compute.conf
-	echo --state_path=/var/lib/nova >> /etc/nova/nova-compute.conf
-	echo --glance_api_servers=$CLOUD_CONTROLLERIP:9292 >> /etc/nova/nova-compute.conf
-	echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-compute.conf
-	echo --vncserver_host=$CLOUD_MYIP >> /etc/nova/nova-compute.conf
-	echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-compute.conf
-	echo --libvirt_type=$CLOUD_VIRTUALISATION >> /etc/nova/nova-compute.conf #qemu,kvm 
-	echo --instances_path=/var/lib/nova/instances >> /etc/nova/nova-compute.conf
-	echo --logdir=/var/log/nova >> /etc/nova/nova-compute.conf
-	echo --resume_guests_state_on_host_boot >> /etc/nova/nova-compute.conf
-	echo --use_project_ca >> /etc/nova/nova-compute.conf
-	echo --nodaemon >> /etc/nova/nova-compute.conf
-	echo --start_guests_on_host_boot=true >> /etc/nova/nova-compute.conf
+    echo --iscsi_ip_prefix=$CLOUD_CONTROLLERIP > $CONFIGFILE
+	echo --libvirt_use_virtio_for_bridges=false >> $CONFIGFILE
+	echo --verbose >> $CONFIGFILE
+	echo --rabbit_host=$CLOUD_CONTROLLERIP >> $CONFIGFILE
+	echo --my_ip=$CLOUD_MYIP >> $CONFIGFILE
+	echo --num_targets=100 >> $CONFIGFILE
+	echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_CONTROLLERIP:3306/nova >> $CONFIGFILE
+	echo --vncproxy_url=http://$CLOUD_CONTROLLERIP:6080 >> $CONFIGFILE
+	echo --lock_path=/tmp >> $CONFIGFILE
+	echo --state_path=/var/lib/nova >> $CONFIGFILE
+	echo --glance_api_servers=$CLOUD_CONTROLLERIP:9292 >> $CONFIGFILE
+	echo --auth_driver=nova.auth.dbdriver.DbDriver >> $CONFIGFILE
+	echo --vncserver_host=$CLOUD_MYIP >> $CONFIGFILE
+	echo --image_service=nova.image.glance.GlanceImageService >> $CONFIGFILE
+	echo --libvirt_type=$CLOUD_VIRTUALISATION >> $CONFIGFILE #qemu,kvm 
+	echo --instances_path=/var/lib/nova/instances >> $CONFIGFILE
+	echo --logdir=/var/log/nova >> $CONFIGFILE
+	echo --resume_guests_state_on_host_boot >> $CONFIGFILE
+	echo --use_project_ca >> $CONFIGFILE
+	echo --nodaemon >> $CONFIGFILE
+	echo --start_guests_on_host_boot=true >> $CONFIGFILE
     
     chown -R root:nova /etc/nova
     chmod 640 /etc/nova/nova.conf
     
-    stop libvirt-bin; start libvirt-bin
-	stop nova-compute; start nova-compute
+    restartAll
 	
 	case $CLOUD_VIRTUALISATION in
     	kvm)

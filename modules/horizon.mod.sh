@@ -23,6 +23,7 @@ installHorizonDev () {
 
 startHorizonDev () {
 	clear
+	echo -e "Starting the Horizon Dev Server..."
 	$HORIZONBASE/openstack-dashboard/tools/with_venv.sh $HORIZONBASE/openstack-dashboard/dashboard/manage.py runserver 0.0.0.0:8001
 }
 
@@ -94,5 +95,6 @@ installHorizon () {
     echo ErrorLog /var/log/nova/apache-error.log >> /etc/apache2/sites-available/default
     echo TransferLog /var/log/nova/apache-access.log >> /etc/apache2/sites-available/default
     echo "</VirtualHost>" >> /etc/apache2/sites-available/default
-    service apache2 restart
+
+	restartAll
 }
