@@ -27,9 +27,9 @@ installController () {
     service mysql restart
 
     touch /etc/nova/nova-controller.conf
-    rm /etc/nova/nova.conf
+    mv /etc/nova/nova.conf /etc/nova/nova.conf.dist
     ln -s /etc/nova/nova-controller.conf /etc/nova/nova.conf
-    sed -i 's/nova.conf/nova-api.conf/g' /etc/init/nova-api.conf
+    #sed -i 's/nova.conf/nova-api.conf/g' /etc/init/nova-api.conf
 
     a2enmod proxy
     a2enmod proxy_http
@@ -110,100 +110,100 @@ installController () {
     #echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-controller.conf
     #echo --use_project_ca >> /etc/nova/nova-controller.conf
     
-    echo [DEFAULT] > /etc/nova/nova-api.conf
-    echo verbose = 1 >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo ####### >> /etc/nova/nova-api.conf
-    echo # EC2 # >> /etc/nova/nova-api.conf
-    echo ####### >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [composite:ec2] >> /etc/nova/nova-api.conf
-    echo use = egg:Paste#urlmap >> /etc/nova/nova-api.conf
-    echo /: ec2versions >> /etc/nova/nova-api.conf
-    echo /services/Cloud: ec2cloud >> /etc/nova/nova-api.conf
-    echo /services/Admin: ec2admin >> /etc/nova/nova-api.conf
-    echo /latest: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2007-01-19: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2007-03-01: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2007-08-29: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2007-10-10: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2007-12-15: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2008-02-01: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2008-09-01: ec2metadata >> /etc/nova/nova-api.conf
-    echo /2009-04-04: ec2metadata >> /etc/nova/nova-api.conf
-    echo /1.0: ec2metadata >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:ec2cloud] >> /etc/nova/nova-api.conf
-    echo pipeline = logrequest authenticate cloudrequest authorizer ec2executor >> /etc/nova/nova-api.conf
-    echo #pipeline = logrequest ec2lockout authenticate cloudrequest authorizer ec2executor >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:ec2admin] >> /etc/nova/nova-api.conf
-    echo pipeline = logrequest authenticate adminrequest authorizer ec2executor >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:ec2metadata] >> /etc/nova/nova-api.conf
-    echo pipeline = logrequest ec2md >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:ec2versions] >> /etc/nova/nova-api.conf
-    echo pipeline = logrequest ec2ver >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:logrequest] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:RequestLogging.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:ec2lockout] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:Lockout.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:authenticate] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:Authenticate.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:cloudrequest] >> /etc/nova/nova-api.conf
-    echo controller = nova.api.ec2.cloud.CloudController >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:Requestify.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:adminrequest] >> /etc/nova/nova-api.conf
-    echo controller = nova.api.ec2.admin.AdminController >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:Requestify.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:authorizer] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.ec2:Authorizer.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [app:ec2executor] >> /etc/nova/nova-api.conf
-    echo paste.app_factory = nova.api.ec2:Executor.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [app:ec2ver] >> /etc/nova/nova-api.conf
-    echo paste.app_factory = nova.api.ec2:Versions.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [app:ec2md] >> /etc/nova/nova-api.conf
-    echo paste.app_factory = nova.api.ec2.metadatarequesthandler:MetadataRequestHandler.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo ############# >> /etc/nova/nova-api.conf
-    echo # Openstack # >> /etc/nova/nova-api.conf
-    echo ############# >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [composite:osapi] >> /etc/nova/nova-api.conf
-    echo use = egg:Paste#urlmap >> /etc/nova/nova-api.conf
-    echo /: osversions >> /etc/nova/nova-api.conf
-    echo /v1.0: openstackapi >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:openstackapi] >> /etc/nova/nova-api.conf
-    echo pipeline = faultwrap auth ratelimit osapiapp >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:faultwrap] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.openstack:FaultWrapper.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:auth] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.openstack.auth:AuthMiddleware.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [filter:ratelimit] >> /etc/nova/nova-api.conf
-    echo paste.filter_factory = nova.api.openstack.ratelimiting:RateLimitingMiddleware.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [app:osapiapp] >> /etc/nova/nova-api.conf
-    echo paste.app_factory = nova.api.openstack:APIRouter.factory >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [pipeline:osversions] >> /etc/nova/nova-api.conf
-    echo pipeline = faultwrap osversionapp >> /etc/nova/nova-api.conf
-    echo  >> /etc/nova/nova-api.conf
-    echo [app:osversionapp] >> /etc/nova/nova-api.conf
-    echo paste.app_factory = nova.api.openstack:Versions.factory >> /etc/nova/nova-api.conf
+    #echo [DEFAULT] > /etc/nova/nova-api.conf
+    #echo verbose = 1 >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo ####### >> /etc/nova/nova-api.conf
+    #echo # EC2 # >> /etc/nova/nova-api.conf
+    #echo ####### >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [composite:ec2] >> /etc/nova/nova-api.conf
+    #echo use = egg:Paste#urlmap >> /etc/nova/nova-api.conf
+    #echo /: ec2versions >> /etc/nova/nova-api.conf
+    #echo /services/Cloud: ec2cloud >> /etc/nova/nova-api.conf
+    #echo /services/Admin: ec2admin >> /etc/nova/nova-api.conf
+    #echo /latest: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2007-01-19: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2007-03-01: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2007-08-29: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2007-10-10: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2007-12-15: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2008-02-01: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2008-09-01: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /2009-04-04: ec2metadata >> /etc/nova/nova-api.conf
+    #echo /1.0: ec2metadata >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:ec2cloud] >> /etc/nova/nova-api.conf
+    #echo pipeline = logrequest authenticate cloudrequest authorizer ec2executor >> /etc/nova/nova-api.conf
+    #echo #pipeline = logrequest ec2lockout authenticate cloudrequest authorizer ec2executor >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:ec2admin] >> /etc/nova/nova-api.conf
+    #echo pipeline = logrequest authenticate adminrequest authorizer ec2executor >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:ec2metadata] >> /etc/nova/nova-api.conf
+    #echo pipeline = logrequest ec2md >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:ec2versions] >> /etc/nova/nova-api.conf
+    #echo pipeline = logrequest ec2ver >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:logrequest] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:RequestLogging.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:ec2lockout] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:Lockout.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:authenticate] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:Authenticate.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:cloudrequest] >> /etc/nova/nova-api.conf
+    #echo controller = nova.api.ec2.cloud.CloudController >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:Requestify.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:adminrequest] >> /etc/nova/nova-api.conf
+    #echo controller = nova.api.ec2.admin.AdminController >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:Requestify.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:authorizer] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.ec2:Authorizer.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [app:ec2executor] >> /etc/nova/nova-api.conf
+    #echo paste.app_factory = nova.api.ec2:Executor.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [app:ec2ver] >> /etc/nova/nova-api.conf
+    #echo paste.app_factory = nova.api.ec2:Versions.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [app:ec2md] >> /etc/nova/nova-api.conf
+    #echo paste.app_factory = nova.api.ec2.metadatarequesthandler:MetadataRequestHandler.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo ############# >> /etc/nova/nova-api.conf
+    #echo # Openstack # >> /etc/nova/nova-api.conf
+    #echo ############# >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [composite:osapi] >> /etc/nova/nova-api.conf
+    #echo use = egg:Paste#urlmap >> /etc/nova/nova-api.conf
+    #echo /: osversions >> /etc/nova/nova-api.conf
+    #echo /v1.0: openstackapi >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:openstackapi] >> /etc/nova/nova-api.conf
+    #echo pipeline = faultwrap auth ratelimit osapiapp >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:faultwrap] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.openstack:FaultWrapper.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:auth] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.openstack.auth:AuthMiddleware.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [filter:ratelimit] >> /etc/nova/nova-api.conf
+    #echo paste.filter_factory = nova.api.openstack.ratelimiting:RateLimitingMiddleware.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [app:osapiapp] >> /etc/nova/nova-api.conf
+    #echo paste.app_factory = nova.api.openstack:APIRouter.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
+    #echo [pipeline:osversions] >> /etc/nova/nova-api.conf
+    #echo pipeline = faultwrap osversionapp >> /etc/nova/nova-api.conf
+    #echo [app:osversionapp] >> /etc/nova/nova-api.conf
+    #echo paste.app_factory = nova.api.openstack:Versions.factory >> /etc/nova/nova-api.conf
+    #echo  >> /etc/nova/nova-api.conf
     
     chown -R nova:nova /usr/lib/python2.7/dist-packages
     chown -R root:nova /etc/nova

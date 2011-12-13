@@ -68,7 +68,7 @@ initKeystone () {
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add nova compute 'Openstack Compute API service'
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add glance image 'Openstack Image service'
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf service add keystone identity 'Openstack Keystone service'
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova nova http://$CLOUD_MYIP:80/v1.1/%tenant_id% http://$CLOUD_MYIP:8774/v1.1/%tenant_id%  http://$CLOUD_MYIP:8774/v1.1/%tenant_id% 1 1
+    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova nova http://$CLOUD_MYIP:8774/v1.1/%tenant_id% http://$CLOUD_MYIP:8774/v1.1/%tenant_id%  http://$CLOUD_MYIP:8774/v1.1/%tenant_id% 1 1
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova glance http://$CLOUD_MYIP:9292/v1.1/%tenant_id% http://$CLOUD_MYIP:9292/v1.1/%tenant_id% http://$CLOUD_MYIP:9292/v1.1/%tenant_id% 1 1
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf endpointTemplates add nova keystone http://$CLOUD_MYIP:5000/v2.0 http://$CLOUD_MYIP:35357/v2.0 http://$CLOUD_MYIP:5000/v2.0 1 1
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf token add $CLOUD_ADMINTOKEN admin admin 2015-02-05T00:00

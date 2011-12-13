@@ -11,7 +11,6 @@ export CLOUD_DIALOGBIN=""
 # AUTODETECTED: The engine used for virtualisation
 export CLOUD_VIRTUALISATION=""
 
-
 # Manually entered/asked Settings
 # Database Password
 export CLOUD_DBPASSWORD=""
