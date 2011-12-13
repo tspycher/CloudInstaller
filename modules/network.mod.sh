@@ -1,10 +1,10 @@
 installNetworking () {    
     ## NETWORKING
-    apt-get -y install nova-network
-    apt-get -y install bridge-utils
-    apt-get -y install dnsmasq-base
-    apt-get -y install iptables
-    apt-get -y install ebtables
+    apt-get -y install nova-network | grep "Setting up"
+    apt-get -y install bridge-utils | grep "Setting up"
+    apt-get -y install dnsmasq-base | grep "Setting up"
+    apt-get -y install iptables | grep "Setting up"
+    apt-get -y install ebtables | grep "Setting up"
 
     sed -i 's/nova.conf/nova-network.conf/g' /etc/init/nova-network.conf
 

@@ -14,91 +14,69 @@ installBase () {
     service ntp stop; ntpdate -u ntp.ubuntu.com; service ntp start
     
     #Openstack
-    apt-get -y install nova-common
-    apt-get -y install nova-compute
-    apt-get -y install nova-doc
+    apt-get -y install nova-common | grep "Setting up"
+    apt-get -y install nova-compute | grep "Setting up"
+    apt-get -y install nova-doc | grep "Setting up"
     
     ## Global Software
-    apt-get -y install git
-    apt-get -y install python-software-properties
-    apt-get -y install python-sqlalchemy
-    apt-get -y install python-mox
-    apt-get -y install python-greenlet
-    apt-get -y install python-carrot
-    apt-get -y install python-migrate
-    apt-get -y install python-eventlet
-    apt-get -y install python-gflags
-    apt-get -y install python-ipy
-    apt-get -y install python-tempita
-    apt-get -y install python-libxml2
-    apt-get -y install python-lxml
-    apt-get -y install python-routes
-    apt-get -y install python-cheetah
-    apt-get -y install python-netaddr
-    apt-get -y install python-paste
-    apt-get -y install python-pastedeploy
-    apt-get -y install python-mysqldb
-    apt-get -y install python-kombu
-    apt-get -y install python-novaclient
-    apt-get -y install python-xattr
-    apt-get -y install python-glance
-    apt-get -y install python-lockfile
-    apt-get -y install python-m2crypto
-    apt-get -y install python-boto
-    apt-get -y install gawk
-    apt-get -y install curl
-    apt-get -y install socat
-    apt-get -y install unzip
-    apt-get -y install vlan
-    apt-get -y install open-iscsi
-    apt-get -y install openssh-server
-    apt-get -y install python-software-properties
-    apt-get -y install dnsmasq-base
-    apt-get -y install kpartx
-    apt-get -y install kvm
-    apt-get -y install gawk
-    apt-get -y install iptables
-    apt-get -y install ebtables
-    apt-get -y install user-mode-linux
-    apt-get -y install libvirt-bin
-    apt-get -y install euca2ools
-    apt-get -y install vlan
-    apt-get -y install curl
-    apt-get -y install lvm2
-    apt-get -y install iscsitarget
-    apt-get -y install open-iscsi
-    apt-get -y install socat
-    apt-get -y install python-twisted
-    apt-get -y install python-sqlalchemy
-    apt-get -y install python-mox
-    apt-get -y install python-greenlet
-    apt-get -y install python-carrot
-    apt-get -y install python-migrate
-    apt-get -y install python-eventlet
-    apt-get -y install python-gflags
-    apt-get -y install python-ipy
-    apt-get -y install python-tempita
-    apt-get -y install python-libvirt
-    apt-get -y install python-libxml2
-    apt-get -y install python-lxml
-    apt-get -y install python-routes
-    apt-get -y install python-cheetah
-    apt-get -y install python-netaddr
-    apt-get -y install python-paste
-    apt-get -y install python-pastedeploy
-    apt-get -y install python-mysqldb
-    apt-get -y install python-kombu
-    apt-get -y install python-novaclient
-    apt-get -y install python-xattr
-    apt-get -y install python-glance
-    apt-get -y install python-lockfile
-    apt-get -y install unzip
-    apt-get -y install cloud-utils
-    apt-get -y install collectd-core
-    apt-get -y install nfs-common
-    apt-get -y install glance
-    apt-get -y install nfs-kernel-server
-    apt-get -y install rrdtool
+    apt-get -y install git | grep "Setting up"
+    apt-get -y install python-software-properties | grep "Setting up"
+    apt-get -y install python-sqlalchemy | grep "Setting up"
+    apt-get -y install python-mox | grep "Setting up"
+    apt-get -y install python-greenlet | grep "Setting up"
+    apt-get -y install python-carrot | grep "Setting up"
+    apt-get -y install python-migrate | grep "Setting up"
+    apt-get -y install python-eventlet | grep "Setting up"
+    apt-get -y install python-gflags | grep "Setting up"
+    apt-get -y install python-ipy | grep "Setting up"
+    apt-get -y install python-tempita | grep "Setting up"
+    apt-get -y install python-libxml2 | grep "Setting up"
+    apt-get -y install python-lxml | grep "Setting up"
+    apt-get -y install python-routes | grep "Setting up"
+    apt-get -y install python-cheetah | grep "Setting up"
+    apt-get -y install python-netaddr | grep "Setting up"
+    apt-get -y install python-paste | grep "Setting up"
+    apt-get -y install python-pastedeploy | grep "Setting up"
+    apt-get -y install python-mysqldb | grep "Setting up"
+    apt-get -y install python-kombu | grep "Setting up"
+    apt-get -y install python-novaclient | grep "Setting up"
+    apt-get -y install python-xattr | grep "Setting up"
+    apt-get -y install python-glance | grep "Setting up"
+    apt-get -y install python-lockfile | grep "Setting up"
+    apt-get -y install python-m2crypto | grep "Setting up"
+    apt-get -y install python-boto | grep "Setting up"
+    apt-get -y install gawk | grep "Setting up"
+    apt-get -y install curl | grep "Setting up"
+    apt-get -y install socat | grep "Setting up"
+    apt-get -y install unzip | grep "Setting up"
+    apt-get -y install vlan | grep "Setting up"
+    apt-get -y install open-iscsi | grep "Setting up"
+    apt-get -y install openssh-server | grep "Setting up"
+    apt-get -y install python-software-properties | grep "Setting up"
+    apt-get -y install dnsmasq-base | grep "Setting up"
+    apt-get -y install kpartx | grep "Setting up"
+    apt-get -y install kvm | grep "Setting up"
+    apt-get -y install gawk | grep "Setting up"
+    apt-get -y install iptables | grep "Setting up"
+    apt-get -y install ebtables | grep "Setting up"
+    apt-get -y install user-mode-linux | grep "Setting up"
+    apt-get -y install libvirt-bin | grep "Setting up"
+    apt-get -y install euca2ools | grep "Setting up"
+    apt-get -y install lvm2 | grep "Setting up"
+    apt-get -y install iscsitarget | grep "Setting up"
+    apt-get -y install python-twisted | grep "Setting up"
+    apt-get -y install python-libvirt | grep "Setting up"
+    apt-get -y install python-libxml2 | grep "Setting up"
+    apt-get -y install python-lxml | grep "Setting up"
+    apt-get -y install python-routes | grep "Setting up"
+    apt-get -y install python-cheetah | grep "Setting up"
+    apt-get -y install python-netaddr | grep "Setting up"
+    apt-get -y install python-paste | grep "Setting up"
+    apt-get -y install cloud-utils | grep "Setting up"
+    apt-get -y install collectd-core | grep "Setting up"
+    apt-get -y install nfs-common | grep "Setting up"
+    apt-get -y install nfs-kernel-server | grep "Setting up"
+    apt-get -y install rrdtool | grep "Setting up"
 }
 
 restartAll () {

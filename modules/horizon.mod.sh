@@ -1,7 +1,7 @@
 HORIZONBASE=/usr/share/openstack-dashboard-dev
 
 installHorizonDev () {
-	apt-get -y install python-virtualenv python-pip virtualenvwrapper
+	apt-get -y install python-virtualenv python-pip virtualenvwrapper | grep "Setting up"
 	
 	mkdir -p $HORIZONBASE
 	git clone https://github.com/4P/horizon $HORIZONBASE
@@ -29,9 +29,9 @@ startHorizonDev () {
 installHorizon () {
     installHorizonDev
     
-    apt-get -y install openstack-dashboard
-    apt-get -y install nova-vncproxy
-    apt-get -y install nova-ajax-console-proxy
+    apt-get -y install openstack-dashboard | grep "Setting up"
+    apt-get -y install nova-vncproxy | grep "Setting up"
+    apt-get -y install nova-ajax-console-proxy | grep "Setting up"
     sudo easy_install virtualenv
 
     mkdir -p ~/src

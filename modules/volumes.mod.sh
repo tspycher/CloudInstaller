@@ -1,10 +1,11 @@
 installVolumes () {
     # Creating Volumes
-    apt-get -y install nova-volume
-    apt-get -y install kpartx
-    apt-get -y install lvm2
-    apt-get -y install iscsitarget
-    apt-get -y install iscsitarget-dkms
+    apt-get -y install glance | grep "Setting up"
+    apt-get -y install nova-volume | grep "Setting up"
+    apt-get -y install kpartx | grep "Setting up"
+    apt-get -y install lvm2 | grep "Setting up"
+    apt-get -y install iscsitarget | grep "Setting up"
+    apt-get -y install iscsitarget-dkms | grep "Setting up"
 
     sed -i 's/nova.conf/nova-volume.conf/g' /etc/init/nova-volume.conf
 

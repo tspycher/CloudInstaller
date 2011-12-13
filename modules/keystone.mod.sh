@@ -1,9 +1,9 @@
 installKeystone () {
     add-apt-repository -y ppa:keystone-core/trunk
     apt-get update
-    apt-get -y install keystone
-    apt-get -y install keystone-doc
-    apt-get -y install python-keystone
+    apt-get -y install keystone | grep "Setting up"
+    apt-get -y install keystone-doc | grep "Setting up"
+    apt-get -y install python-keystone | grep "Setting up"
 
     sed -i 's@default_store = sqlite@default_store = mysql@g' /etc/keystone/keystone.conf
     sed -i 's@log_file = keystone.log@log_file = /var/log/keystone/keystone.log@g' /etc/keystone/keystone.conf
