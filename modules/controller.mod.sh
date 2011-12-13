@@ -1,27 +1,27 @@
 installController () {
     # CONTROLLER
-    apt-get -y install nova-scheduler | grep "Setting up"
-    apt-get -y install nova-objectstore     | grep "Setting up"
-    apt-get -y install nova-api | grep "Setting up"
-    apt-get -y install euca2ools | grep "Setting up"
-    apt-get -y install cloud-utils | grep "Setting up"
-    apt-get -y install glance | grep "Setting up"
+    apt-get -y install nova-scheduler 2>/dev/null | grep "Setting up"
+    apt-get -y install nova-objectstore 2>/dev/null | grep "Setting up"
+    apt-get -y install nova-api 2>/dev/null | grep "Setting up"
+    apt-get -y install euca2ools 2>/dev/null | grep "Setting up"
+    apt-get -y install cloud-utils 2>/dev/null | grep "Setting up"
+    apt-get -y install glance 2>/dev/null | grep "Setting up"
     echo mysql-server-5.1 mysql-server/root_password password $CLOUD_DBPASSWORD | debconf-set-selections
     echo mysql-server-5.1 mysql-server/root_password_again password $CLOUD_DBPASSWORD | debconf-set-selections
     echo mysql-server-5.1 mysql-server/start_on_boot boolean true
-    apt-get -y install mysql-server | grep "Setting up"
+    apt-get -y install mysql-server 2>/dev/null | grep "Setting up"
     DEBIAN_FRONTEND=noninteractive apt-get -y install rabbitmq-server
-    apt-get -y install apache2 | grep "Setting up"
-    apt-get -y install libapache2-mod-wsgi | grep "Setting up"
-    apt-get -y install python-setuptools | grep "Setting up"
-    apt-get -y install python-dev | grep "Setting up"
-    apt-get -y install python-pastescript | grep "Setting up"
-    apt-get -y install python-paste | grep "Setting up"
-    apt-get -y install sqlite3 | grep "Setting up"
-    apt-get -y install python-pysqlite2 | grep "Setting up"
-    apt-get -y install python-webob | grep "Setting up"
-    apt-get -y install libldap2-dev | grep "Setting up"
-    apt-get -y install libsasl2-dev | grep "Setting up"
+    apt-get -y install apache2 2>/dev/null | grep "Setting up"
+    apt-get -y install libapache2-mod-wsgi 2>/dev/null | grep "Setting up"
+    apt-get -y install python-setuptools 2>/dev/null | grep "Setting up"
+    apt-get -y install python-dev 2>/dev/null | grep "Setting up"
+    apt-get -y install python-pastescript 2>/dev/null | grep "Setting up"
+    apt-get -y install python-paste 2>/dev/null | grep "Setting up"
+    apt-get -y install sqlite3 2>/dev/null | grep "Setting up"
+    apt-get -y install python-pysqlite2 2>/dev/null | grep "Setting up"
+    apt-get -y install python-webob 2>/dev/null | grep "Setting up"
+    apt-get -y install libldap2-dev 2>/dev/null | grep "Setting up"
+    apt-get -y install libsasl2-dev 2>/dev/null | grep "Setting up"
     #apt-get -y install python-passlib
     sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
     service mysql restart

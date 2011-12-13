@@ -29,9 +29,9 @@ startHorizonDev () {
 installHorizon () {
     installHorizonDev
     
-    apt-get -y install openstack-dashboard | grep "Setting up"
-    apt-get -y install nova-vncproxy | grep "Setting up"
-    apt-get -y install nova-ajax-console-proxy | grep "Setting up"
+    apt-get -y install openstack-dashboard 2>/dev/null | grep "Setting up"
+    apt-get -y install nova-vncproxy 2>/dev/null | grep "Setting up"
+    apt-get -y install nova-ajax-console-proxy 2>/dev/null | grep "Setting up"
     sudo easy_install virtualenv
 
     mkdir -p ~/src

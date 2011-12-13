@@ -29,16 +29,16 @@ installCompute () {
     	;;	
 	esac
 	
-    apt-get -y install mysql-client-core-5.1 | grep "Setting up"
-	apt-get -y install vlan | grep "Setting up"
-	apt-get -y install open-iscsi | grep "Setting up"
-	apt-get -y install nfs-common | grep "Setting up"
-	apt-get -y install kvm | grep "Setting up"
-	apt-get -y install iptables | grep "Setting up"
-	apt-get -y install ebtables | grep "Setting up"
-	apt-get -y install user-mode-linux | grep "Setting up"
-	apt-get -y install libvirt-bin | grep "Setting up"
-	apt-get -y install python-libvirt | grep "Setting up"
+    apt-get -y install mysql-client-core-5.1 2>/dev/null | grep "Setting up"
+	apt-get -y install vlan 2>/dev/null | grep "Setting up"
+	apt-get -y install open-iscsi 2>/dev/null | grep "Setting up"
+	apt-get -y install nfs-common 2>/dev/null | grep "Setting up"
+	apt-get -y install kvm 2>/dev/null | grep "Setting up"
+	apt-get -y install iptables 2>/dev/null | grep "Setting up"
+	apt-get -y install ebtables 2>/dev/null | grep "Setting up"
+	apt-get -y install user-mode-linux 2>/dev/null | grep "Setting up"
+	apt-get -y install libvirt-bin 2>/dev/null | grep "Setting up"
+	apt-get -y install python-libvirt 2>/dev/null| grep "Setting up"
 	sed -i '{:q;N;s/\tpost-up[^][^]*.\n//g;t q}' /etc/network/interfaces
 	sed -i 's/inet static/inet static\n\tpost-up ifconfig eth1 0.0.0.0/g' /etc/network/interfaces
 	sed -i 's/inet dhcp/inet dhcp\n\tpost-up ifconfig eth1 0.0.0.0/g' /etc/network/interfaces
