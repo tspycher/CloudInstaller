@@ -2,9 +2,10 @@ controller () {
 	installBase
     installController
     initDatabase
-    installKeystone
-    initKeystone
-    installHorizon
+	network
+    volume
+    horizonOnly
+    keystoneOnly
     restartAll
 }
 

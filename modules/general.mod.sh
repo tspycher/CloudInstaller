@@ -11,7 +11,7 @@ verifyEuca () {
 	nova-manage user admin novaadmin
 	nova-manage project zipfile proj novaadmin ~/creds/creds.zip
 	cd ~/creds/
-	unzip creds.zip
+	unzip -o creds.zip
 	nova-manage user exports novaadmin >> novarc
 	source novarc 
 	euca-describe-availability-zones --debug verbose	
