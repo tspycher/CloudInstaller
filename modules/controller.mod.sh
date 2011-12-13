@@ -53,39 +53,62 @@ installController () {
     sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:'${CLOUD_DBPASSWORD}'@'$CLOUD_MYIP':3306/glance,g' /etc/glance/glance-scrubber.conf
     sed -i 's@daemon = False@daemon = True@g' /etc/glance/glance-scrubber.conf
    
-    echo --s3_hostname=$CLOUD_MYIP > /etc/nova/nova-controller.conf
-    echo --dhcpbridge_flagfile=/etc/nova/nova.conf >> /etc/nova/nova-controller.conf
-    echo --dhcpbridge=/usr/bin/nova-dhcpbridge >> /etc/nova/nova-controller.conf
-    echo --nova_url=http://10.10.10.2:8774/v1.1/ >> /etc/nova/nova-controller.conf   
-    echo --osapi_extensions_path=/var/lib/nova/extensions >> /etc/nova/nova-controller.conf
-    echo --vncproxy_url=http://$CLOUD_MYIP:6080 >> /etc/nova/nova-controller.conf
-    echo --verbose >> /etc/nova/nova-controller.conf
-    echo --ec2_dmz_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --lock_path=/tmp >> /etc/nova/nova-controller.conf
-    echo --glance_api_servers=$CLOUD_MYIP:9292 >> /etc/nova/nova-controller.conf
-    echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-controller.conf
-    echo --max_cores=16 >> /etc/nova/nova-controller.conf
-    echo --s3_dmz=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --osapi_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --s3_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --s3_port=80 >> /etc/nova/nova-controller.conf
-    echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --cc_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --ec2_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
-    echo --logdir=/var/log/nova >> /etc/nova/nova-controller.conf
-    echo --ec2_port=80 >> /etc/nova/nova-controller.conf
-    echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-controller.conf
-    echo --osapi_port=80 >> /etc/nova/nova-controller.conf
-    echo --allow_admin_api >> /etc/nova/nova-controller.conf
-    echo --scheduler_driver=nova.scheduler.simple.SimpleScheduler >> /etc/nova/nova-controller.conf
-    echo --nodaemon >> /etc/nova/nova-controller.conf
-    echo --max_networks=1000 >> /etc/nova/nova-controller.conf
+
+	echo --dhcpbridge_flagfile=/etc/nova/nova.conf > /etc/nova/nova-controller.conf
+	echo --dhcpbridge=/usr/bin/nova-dhcpbridge >> /etc/nova/nova-controller.conf
+	echo --logdir=/var/log/nova >> /etc/nova/nova-controller.conf
+	echo --state_path=/var/lib/nova >> /etc/nova/nova-controller.conf
+	echo --lock_path=/var/lock/nova >> /etc/nova/nova-controller.conf
+	echo --state_path=/var/lib/nova >> /etc/nova/nova-controller.conf
+	echo --verbose >> /etc/nova/nova-controller.conf
+	echo --s3_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+	echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+	echo --cc_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+	echo --nova_url=http://$CLOUD_MYIP:8774/v1.1/ >> /etc/nova/nova-controller.conf
+	echo --fixed_range=192.168.0.0/16 >> /etc/nova/nova-controller.conf
+	echo --network_size=8 >> /etc/nova/nova-controller.conf
+	echo --routing_source_ip=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+	echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP/nova >> /etc/nova/nova-controller.conf
+	echo --glance_api_servers=$CLOUD_MYIP:9292 >> /etc/nova/nova-controller.conf
+	echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-controller.conf
+	echo --iscsi_ip_prefix=192.168. >> /etc/nova/nova-controller.conf
+	echo --vlan_interface=br100 >> /etc/nova/nova-controller.conf
+	echo --public_interface=eth0 >> /etc/nova/nova-controller.conf
+
+
+    #echo --s3_hostname=$CLOUD_MYIP > /etc/nova/nova-controller.conf
+    #echo --dhcpbridge_flagfile=/etc/nova/nova.conf >> /etc/nova/nova-controller.conf
+    #echo --dhcpbridge=/usr/bin/nova-dhcpbridge >> /etc/nova/nova-controller.conf
+    #echo --nova_url=http://$CLOUD_MYIP:8774/v1.1/ >> /etc/nova/nova-controller.conf   
+    #echo --osapi_extensions_path=/var/lib/nova/extensions >> /etc/nova/nova-controller.conf
+    #echo --vncproxy_url=http://$CLOUD_MYIP:6080 >> /etc/nova/nova-controller.conf
+    #echo --verbose >> /etc/nova/nova-controller.conf
+    #echo --ec2_dmz_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --lock_path=/tmp >> /etc/nova/nova-controller.conf
+    #echo --glance_api_servers=$CLOUD_MYIP:9292 >> /etc/nova/nova-controller.conf
+    #echo --auth_driver=nova.auth.dbdriver.DbDriver >> /etc/nova/nova-controller.conf
+    #echo --max_cores=16 >> /etc/nova/nova-controller.conf
+    #echo --s3_dmz=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --osapi_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --s3_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --s3_port=80 >> /etc/nova/nova-controller.conf
+    #echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --cc_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --ec2_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    #echo --logdir=/var/log/nova >> /etc/nova/nova-controller.conf
+    #echo --ec2_port=80 >> /etc/nova/nova-controller.conf
+    #echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP:3306/nova >> /etc/nova/nova-controller.conf
+    #echo --osapi_port=80 >> /etc/nova/nova-controller.conf
+    #echo --allow_admin_api >> /etc/nova/nova-controller.conf
+    #echo --scheduler_driver=nova.scheduler.simple.SimpleScheduler >> /etc/nova/nova-controller.conf
+    #echo --nodaemon >> /etc/nova/nova-controller.conf
+    #echo --max_networks=1000 >> /etc/nova/nova-controller.conf
     #echo --api_paste_config=/var/lib/keystone/examples/paste/nova-api-paste.ini >> /etc/nova/nova-controller.conf
-    echo --max_gigabytes=2048 >> /etc/nova/nova-controller.conf
-    echo --state_path=/var/lib/nova >> /etc/nova/nova-controller.conf
-    echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-controller.conf
-    echo --use_project_ca >> /etc/nova/nova-controller.conf
+    #echo --max_gigabytes=2048 >> /etc/nova/nova-controller.conf
+    #echo --state_path=/var/lib/nova >> /etc/nova/nova-controller.conf
+    #echo --image_service=nova.image.glance.GlanceImageService >> /etc/nova/nova-controller.conf
+    #echo --use_project_ca >> /etc/nova/nova-controller.conf
     
     echo [DEFAULT] > /etc/nova/nova-api.conf
     echo verbose = 1 >> /etc/nova/nova-api.conf
