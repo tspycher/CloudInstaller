@@ -52,8 +52,11 @@ installController () {
     sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:'${CLOUD_DBPASSWORD}'@'$CLOUD_MYIP':3306/glance,g' /etc/glance/glance-registry.conf
     sed -i 's,sqlite:////var/lib/glance/glance.sqlite,mysql://root:'${CLOUD_DBPASSWORD}'@'$CLOUD_MYIP':3306/glance,g' /etc/glance/glance-scrubber.conf
     sed -i 's@daemon = False@daemon = True@g' /etc/glance/glance-scrubber.conf
-    
+   
     echo --s3_hostname=$CLOUD_MYIP > /etc/nova/nova-controller.conf
+    echo --dhcpbridge_flagfile=/etc/nova/nova.conf >> /etc/nova/nova-controller.conf
+    echo --dhcpbridge=/usr/bin/nova-dhcpbridge >> /etc/nova/nova-controller.conf
+    echo --nova_url=http://10.10.10.2:8774/v1.1/ >> /etc/nova/nova-controller.conf   
     echo --osapi_extensions_path=/var/lib/nova/extensions >> /etc/nova/nova-controller.conf
     echo --vncproxy_url=http://$CLOUD_MYIP:6080 >> /etc/nova/nova-controller.conf
     echo --verbose >> /etc/nova/nova-controller.conf
@@ -64,8 +67,10 @@ installController () {
     echo --max_cores=16 >> /etc/nova/nova-controller.conf
     echo --s3_dmz=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --osapi_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    echo --s3_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --s3_port=80 >> /etc/nova/nova-controller.conf
     echo --rabbit_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
+    echo --cc_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --my_ip=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --ec2_host=$CLOUD_MYIP >> /etc/nova/nova-controller.conf
     echo --logdir=/var/log/nova >> /etc/nova/nova-controller.conf
