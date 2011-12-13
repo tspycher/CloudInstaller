@@ -5,8 +5,6 @@ roleSelection () {
 		--title "[ Role Selection ]" \
 		--menu "Please select one of the following roles" 20 80 12 \
 		Controller "Install an controller (MySQL,Rabbit,Compute,Keystone,Horizon)" \
-		#Network "Install Network components" \
-		#Volume "Install Volume components" \
 		Horizon "Install Horizon only" \
 		Keystone "Install Keystone only" \
 		FirstImage "Download and publish an Ubuntu 10.04 Image" \
