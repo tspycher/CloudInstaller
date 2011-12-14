@@ -1,13 +1,11 @@
 installKeystone () {
     apt-get -y install keystone 2>/dev/null | grep "Setting up"
     
-    #add-apt-repository -y ppa:keystone-core/trunk
-    #apt-get update
-    #apt-get -y install keystone 2>/dev/null | grep "Setting up"
     apt-get -y install keystone-doc 2>/dev/null | grep "Setting up"
     apt-get -y install python-keystone 2>/dev/null | grep "Setting up"
 
     sed -i 's@default_store = sqlite@default_store = mysql@g' /etc/keystone/keystone.conf
+    sed -i 's@admin_port = 5001@admin_port = 35357@g' /etc/keystone/keystone.conf
     sed -i 's@log_file = keystone.log@log_file = /var/log/keystone/keystone.log@g' /etc/keystone/keystone.conf
     sed -i 's,sqlite:////var/lib/keystone/keystone.db,mysql://root:'$CLOUD_DBPASSWORD'@'$CLOUD_MYIP':3306/keystone,g' /etc/keystone/keystone.conf
 
@@ -15,6 +13,12 @@ installKeystone () {
 	ln -s /usr/share/pyshared/keystone /usr/keystone
     
     restartAll
+
+    add-apt-repository -y ppa:keystone-core/trunk
+    apt-get update
+    apt-get -y install keystone 2>/dev/null | grep "Setting up"
+
+	restartAll
 }
 
 keystoneAdminToken () {
@@ -43,7 +47,6 @@ initKeystone () {
     
     keystoneAdminToken
     
-    /usr/bin/keystone-manage -c /etc/keystone/keystone.conf
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add admin
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf tenant add demo
     /usr/bin/keystone-manage -c /etc/keystone/keystone.conf user add admin password

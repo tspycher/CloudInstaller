@@ -1,5 +1,6 @@
 verify () {
 	nova-manage service list
+	verifyAPI
 	glance index -A $CLOUD_ADMINTOKEN
 
 	verifyEuca	
@@ -16,6 +17,36 @@ verifyEuca () {
 	source novarc 
 	euca-describe-availability-zones --debug verbose	
     euca-describe-images --debug
+}
+
+verifyAPI () {
+	echo "Webserver"
+	curl -qs http://localhost > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	
+	echo "EC2 API"
+	curl -qs http://localhost:8773 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+
+	echo "S3 API"
+	curl -qs http://localhost:3333 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+						
+	echo "NOVA API"
+	curl -qs http://localhost:8774 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+		
+	echo "Keystone API"
+	curl -qs http://localhost:5000 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+		
+	echo "Keystone Admin API"
+	curl -qs http://localhost:35357 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+		
+	echo "Rabbit MQ"
+	curl -qs http://localhost:5672 > /dev/null
+	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
 }
 
 installBase () {
@@ -109,6 +140,6 @@ restartAll () {
     restart glance-api
     restart glance-registry
     restart nova-vncproxy
-    restart stop nova-ajax-console-proxy
+    restart nova-ajax-console-proxy
     service apache2 restart
 }

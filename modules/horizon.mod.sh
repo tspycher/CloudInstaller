@@ -7,7 +7,7 @@ installHorizonDev () {
 	git clone https://github.com/4P/horizon $HORIZONBASE
 	cd $HORIZONBASE/openstack-dashboard/
     cp $HORIZONBASE/openstack-dashboard/local/local_settings.py.example $HORIZONBASE/openstack-dashboard/local/local_settings.py
-    echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local_settings.py
+    echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local/local_settings.py
 	
 	# https://github.com/openstack/quantum.git#egg=quantum
 	# with	
