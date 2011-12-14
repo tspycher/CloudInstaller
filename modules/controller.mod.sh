@@ -65,6 +65,9 @@ installController () {
 	echo --vlan_interface=br100 >> $CONFIGFILE
 	echo --public_interface=eth0 >> $CONFIGFILE
 
+	echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP/nova >> /etc/nova/nova.conf
+
+
 
     #echo --s3_hostname=$CLOUD_MYIP > $CONFIGFILE
     #echo --dhcpbridge_flagfile=/etc/nova/nova.conf >> $CONFIGFILE

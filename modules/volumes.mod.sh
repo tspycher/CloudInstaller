@@ -8,7 +8,7 @@ installVolumes () {
     apt-get -y install iscsitarget | grep "Setting up"
     apt-get -y install iscsitarget-dkms | grep "Setting up"
 
-    sed -i 's/nova.conf/nova-volume.conf/g' /etc/init/nova-volume.conf
+    #sed -i 's/nova.conf/nova-volume.conf/g' /etc/init/nova-volume.conf
 
     #mv /etc/init/nova-volume.conf.disabled /etc/init/nova-volume.conf
     sed -i 's/false/true/g' /etc/default/iscsitarget
