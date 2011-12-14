@@ -27,6 +27,9 @@ keystoneAdminToken () {
 }
 
 initKeystone () {
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "DROP DATABASE IF EXISTS keystone;"
+    mysql -uroot -p$CLOUD_DBPASSWORD -e "CREATE DATABASE keystone;"
+    
     HOST_IP=${HOST_IP:-127.0.0.1}
     export NOVA_PROJECT_ID=${TENANT:-demo}
     export NOVA_USERNAME=admin

@@ -23,31 +23,35 @@ verifyAPI () {
 	echo "Verify API Connections"
 	echo "----------------------"
 	echo "Webserver:"
-	curl -qs http://localhost > /dev/null
+	curl -qs http://$CLOUD_MYIP > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 	
 	echo "EC2 API:"
-	curl -qs http://localhost:8773 > /dev/null
+	curl -qs http://$CLOUD_MYIP:8773 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 
 	echo "S3 API:"
-	curl -qs http://localhost:3333 > /dev/null
+	curl -qs http://$CLOUD_MYIP:3333 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 						
 	echo "NOVA API:"
-	curl -qs http://localhost:8774 > /dev/null
+	curl -qs http://$CLOUD_MYIP:8774 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
 	echo "Keystone API:"
-	curl -qs http://localhost:5000 > /dev/null
+	curl -qs http://$CLOUD_MYIP:5000 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
 	echo "Keystone Admin API:"
-	curl -qs http://localhost:35357 > /dev/null
+	curl -qs http://$CLOUD_MYIP:35357 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
 	echo "Rabbit MQ:"
-	curl -qs http://localhost:5672 > /dev/null
+	curl -qs http://$CLOUD_MYIP:5672 > /dev/null
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
+		
+	echo "Glance API:"
+	curl -qs http://$CLOUD_MYIP:9292 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 }
 
