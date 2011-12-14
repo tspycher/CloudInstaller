@@ -31,7 +31,13 @@ installVolumes () {
     
     # Configure Glance for keystone auth
     sed -i 's/pipeline = context/pipeline = authtoken keystone_shim context/g' /etc/glance/glance-registry.conf
+    sed -i 's/auth_port = 5001/auth_port = 35357/g' /etc/glance/glance-registry.conf
     sed -i 's/pipeline = versionnegotiation/pipeline = versionnegotiation authtoken/g' /etc/glance/glance-api.conf
+    sed -i 's/auth_port = 5001/auth_port = 35357/g' /etc/glance/glance-api.conf
+    
+    
+    
+    
     
     restartAll
 }

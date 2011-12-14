@@ -9,14 +9,15 @@ verify () {
 verifyEuca () {
 	mkdir -p ~/creds
 	nova-manage db sync
-	nova-manage user admin novaadmin
-	nova-manage project zipfile proj novaadmin ~/creds/creds.zip
+	nova-manage user admin admin
+	nova-manage project create admin admin
+	nova-manage project zipfile admin admin ~/creds/creds.zip
 	cd ~/creds/
 	unzip -o creds.zip
-	nova-manage user exports novaadmin >> novarc
+	#nova-manage user exports admin >> novarc
 	source novarc 
-	euca-describe-availability-zones --debug verbose	
-    euca-describe-images --debug
+	euca-describe-availability-zones verbose	
+    #euca-describe-images --debug
 }
 
 verifyAPI () {
@@ -50,6 +51,10 @@ verifyAPI () {
 	curl -qs http://$CLOUD_MYIP:5672 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
+	echo "Glance Registry:"
+	curl -qs http://$CLOUD_MYIP:9191 > /dev/null
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
+	
 	echo "Glance API:"
 	curl -qs http://$CLOUD_MYIP:9292 > /dev/null
 	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
