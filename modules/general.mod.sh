@@ -20,33 +20,35 @@ verifyEuca () {
 }
 
 verifyAPI () {
-	echo "Webserver"
+	echo "Verify API Connections"
+	echo "----------------------"
+	echo "Webserver:"
 	curl -qs http://localhost > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 	
-	echo "EC2 API"
+	echo "EC2 API:"
 	curl -qs http://localhost:8773 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 
-	echo "S3 API"
+	echo "S3 API:"
 	curl -qs http://localhost:3333 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 						
-	echo "NOVA API"
+	echo "NOVA API:"
 	curl -qs http://localhost:8774 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
-	echo "Keystone API"
+	echo "Keystone API:"
 	curl -qs http://localhost:5000 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
-	echo "Keystone Admin API"
+	echo "Keystone Admin API:"
 	curl -qs http://localhost:35357 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 		
-	echo "Rabbit MQ"
+	echo "Rabbit MQ:"
 	curl -qs http://localhost:5672 > /dev/null
-	if [ ! $? == 0 ]; then echo "FAILED"; else echo "OK"; fi;
+	if [ ! $? == 0 ]; then echo -e "\tFAILED"; else echo -e "\tOK"; fi;
 }
 
 installBase () {
