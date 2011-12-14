@@ -4,7 +4,8 @@ installHorizonDev () {
 	apt-get -y install python-virtualenv python-pip virtualenvwrapper | grep "Setting up"
 	
 	mkdir -p $HORIZONBASE
-	git clone https://github.com/4P/horizon $HORIZONBASE
+	#git clone https://github.com/4P/horizon $HORIZONBASE
+	git clone https://github.com/openstack/horizon.git $HORIZONBASE
 	cd $HORIZONBASE/openstack-dashboard/
     cp $HORIZONBASE/openstack-dashboard/local/local_settings.py.example $HORIZONBASE/openstack-dashboard/local/local_settings.py
     echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local/local_settings.py
@@ -12,8 +13,8 @@ installHorizonDev () {
 	# https://github.com/openstack/quantum.git#egg=quantum
 	# with	
 	# https://github.com/openstack/quantum.git@stable/diablo#egg=quantum
-	sed -i 's/quantum.git#egg=quantum/quantum.git@stable\/diablo#egg=quantum/g' $HORIZONBASE/openstack-dashboard/tools/pip-requires
-	echo 'pycrypto >= 2.2' >> $HORIZONBASE/openstack-dashboard/tools/pip-requires
+	#sed -i 's/quantum.git#egg=quantum/quantum.git@stable\/diablo#egg=quantum/g' $HORIZONBASE/openstack-dashboard/tools/pip-requires
+	#echo 'pycrypto >= 2.2' >> $HORIZONBASE/openstack-dashboard/tools/pip-requires
 	
 	python $HORIZONBASE/openstack-dashboard/tools/install_venv.py
 
