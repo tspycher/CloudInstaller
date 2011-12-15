@@ -61,6 +61,8 @@ verifyAPI () {
 }
 
 installBase () {
+    apt-get -y install python-software-properties
+    add-apt-repository ppa:nova-core/milestone
     apt-get -y update
     if [ ! "$CLOUD_NEWHOSTNAME" ]; then askForValue "Hostnmae"; export CLOUD_NEWHOSTNAME=$(<"${INPUT}"); fi;
     
