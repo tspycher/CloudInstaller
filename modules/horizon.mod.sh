@@ -11,7 +11,7 @@ installHorizonDev () {
 	apt-get -y install python-virtualenv python-pip virtualenvwrapper | grep "Setting up"
 	
 	mkdir -p $HORIZONBASE
-	if [ $CURRENT ]; then
+	if [ $CURRENT != 0 ]; then
 		git clone https://github.com/openstack/horizon.git $HORIZONBASE
 	else
 		git clone https://github.com/4P/horizon $HORIZONBASE
@@ -21,7 +21,7 @@ installHorizonDev () {
     cp $HORIZONBASE/openstack-dashboard/local/local_settings.py.example $HORIZONBASE/openstack-dashboard/local/local_settings.py
     echo "OPENSTACK_ADMIN_TOKEN = \"999888777666\"" >> $HORIZONBASE/openstack-dashboard/local/local_settings.py
 	
-	if [ ! $CURRENT ]; then	
+	if [ $CURRENT == 0 ]; then	
 		# https://github.com/openstack/quantum.git#egg=quantum
 		# with	
 		# https://github.com/openstack/quantum.git@stable/diablo#egg=quantum
