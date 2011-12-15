@@ -3,6 +3,11 @@ HORIZONBASE=/usr/share/openstack-dashboard-dev
 installHorizonDev () {
 	CURRENT=0
 	
+	if [ -e $HORIZONBASE ]; then
+		tar -cvzf $HORIZONBASE/../horizon_backup.tar.gz $HORIZONBASE
+		rm -rf $HORIZONBASE
+	fi
+
 	apt-get -y install python-virtualenv python-pip virtualenvwrapper | grep "Setting up"
 	
 	mkdir -p $HORIZONBASE
