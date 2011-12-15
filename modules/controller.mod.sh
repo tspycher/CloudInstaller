@@ -67,6 +67,9 @@ installController () {
 
 	echo --sql_connection=mysql://root:$CLOUD_DBPASSWORD@$CLOUD_MYIP/nova >> /etc/nova/nova.conf
 
+	# TODO:
+	# Fixing the API Issue in /etc/nova/api-paste.ini
+	# https://answers.launchpad.net/horizon/+question/181166
 
 
     #echo --s3_hostname=$CLOUD_MYIP > $CONFIGFILE
