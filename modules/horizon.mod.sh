@@ -1,7 +1,7 @@
 HORIZONBASE=/usr/share/openstack-dashboard-dev
 
 installHorizonDev () {
-	CURRENT=0
+	CURRENT=1
 	
 	if [ -e $HORIZONBASE ]; then
 		tar -cvzf $HORIZONBASE/../horizon_backup.tar.gz $HORIZONBASE
